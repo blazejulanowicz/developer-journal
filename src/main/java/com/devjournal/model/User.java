@@ -12,7 +12,7 @@ public class User {
 
     private String login;
 
-    @Column(name = "passHash")
+    @Column(name = "pass_hash")
     private String passHash;
 
     @OneToMany(mappedBy = "owner")
