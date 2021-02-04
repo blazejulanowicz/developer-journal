@@ -12,6 +12,7 @@ public class User {
 
     private String login;
 
+    @Column(name = "passHash")
     private String passHash;
 
     @OneToMany(mappedBy = "owner")
