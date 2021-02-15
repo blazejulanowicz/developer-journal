@@ -31483,7 +31483,7 @@ var App = /*#__PURE__*/function (_React$Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get("http://localhost:8080/api/users");
+                return axios.get("http://localhost:8080/api/entries");
 
               case 2:
                 response = _context.sent;

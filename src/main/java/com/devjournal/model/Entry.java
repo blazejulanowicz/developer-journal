@@ -8,7 +8,7 @@ public class Entry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String content;
 
@@ -20,7 +20,7 @@ public class Entry {
     @ManyToOne
     private Project project;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

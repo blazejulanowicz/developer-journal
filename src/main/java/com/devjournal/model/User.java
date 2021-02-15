@@ -8,7 +8,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String login;
 
@@ -28,7 +28,7 @@ public class User {
         this.passHash = passHash;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

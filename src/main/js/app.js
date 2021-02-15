@@ -11,7 +11,7 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await axios.get("http://localhost:8080/api/users");
+        const response = await axios.get("http://localhost:8080/api/entries");
         console.log(response.data);
         this.setState({users: response.data._embedded.users});
     }
