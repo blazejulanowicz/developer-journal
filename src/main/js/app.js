@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const client = require('./client');
 const regeneratorRuntime = require("regenerator-runtime");
+const EntryList = require('./components/EntryList');
 
 class App extends React.Component {
 
@@ -13,12 +14,11 @@ class App extends React.Component {
     async componentDidMount() {
         let response = await client({method: 'GET', path: '/api/entries'});
         this.setState({entries: response.entity._embedded.entries});
-        console.log(this.state.entries)
     }
 
     render() {
         return (
-            <div>SIEMANO KOLANO</div>
+            <EntryList entries={this.state.entries}/>
         )
     }
 }

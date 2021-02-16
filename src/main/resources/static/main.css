@@ -1,0 +1,29 @@
+.entry-list {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    width: 50%;
+}
+
+.entry {
+    margin: 10px 5px;
+    background-color: #a1d8ff;
+    border-radius: 15px;
+    min-height: 5rem;
+    padding: 10px;
+}
+
+.entry .info {
+    padding-bottom: 5px;
+    border-bottom: 1px solid cornflowerblue;
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-info {
+}
+
+.right-info {
+}
