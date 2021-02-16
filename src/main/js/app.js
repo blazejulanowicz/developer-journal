@@ -15,8 +15,8 @@ class App extends React.Component {
         this.state = {entries: [], attributes: [], pageSize: 2, links: []};
     }
 
-    async componentDidMount() {
-        await this.loadFromServer(this.state.pageSize);
+    componentDidMount() {
+        this.loadFromServer(this.state.pageSize).catch(error => console.log(error));
     }
 
     async loadFromServer(pageSize) {
@@ -39,9 +39,22 @@ class App extends React.Component {
         });
     }
 
+    async onNavigate(naviUri) {
+        let entryCollection = await client({
+            method: 'GET',
+            path: naviUri
+        });
+
+        this.setState({
+            entries: entryCollection.entity._embedded.entries,
+            attributes: this.state.attributes,
+            pageSize: this.state.pageSize,
+            links: entryCollection.entity._links
+        });
+    }
+
     async onCreate(newEntry) {
         const entriesCollection = await follow(client, root, ['entries']);
-        console.log(newEntry)
         await client({
             method: 'POST',
             path: entriesCollection.entity._links.self.href,
@@ -50,6 +63,11 @@ class App extends React.Component {
         });
 
         const response = await follow(client, root, [{rel: 'entries', params: {'size': this.state.pageSize}}]);
+
+        if(typeof response !== 'undefined')
+            await this.onNavigate(response.entity._links.last.href);
+        else
+            await this.onNavigate(response.entity._links.self.href);
     }
 
     render() {
