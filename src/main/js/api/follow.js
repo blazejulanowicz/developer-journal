@@ -8,7 +8,7 @@ module.exports = function follow(api, rootPath, relArray) {
         let rel = typeof arrayItem === 'string' ? arrayItem : arrayItem.rel;
 
         return traverseNext(root, rel, arrayItem)
-    })
+    }, root)
 
     async function traverseNext(root, rel, arrayItem) {
         const response = await root;
