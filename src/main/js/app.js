@@ -3,6 +3,7 @@ const ReactDOM = require('react-dom');
 const client = require('./client');
 const regeneratorRuntime = require("regenerator-runtime");
 const EntryList = require('./components/EntryList');
+const follow = require('./api/follow')
 
 class App extends React.Component {
 
@@ -11,9 +12,14 @@ class App extends React.Component {
         this.state = {entries: []};
     }
 
-    async componentDidMount() {
-        let response = await client({method: 'GET', path: '/api/entries'});
-        this.setState({entries: response.entity._embedded.entries});
+    componentDidMount() {
+        this.loadFromServer(this.state.pageSize);
+    }
+
+    async loadFromServer(pageSize) {
+        const root = '/api';
+
+        const entryCollection = await follow(client, root)
     }
 
     render() {
