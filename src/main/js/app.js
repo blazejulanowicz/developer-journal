@@ -64,17 +64,25 @@ class App extends React.Component {
 
         const response = await follow(client, root, [{rel: 'entries', params: {'size': this.state.pageSize}}]);
 
-        if(typeof response !== 'undefined')
+        if(typeof response.entity._links.last !== 'undefined')
             await this.onNavigate(response.entity._links.last.href);
         else
             await this.onNavigate(response.entity._links.self.href);
+    }
+
+    onDelete(entry) {
+        client({
+            method: 'DELETE',
+            path: entry._links.self.href
+        })
+            .done(response => this.loadFromServer(this.state.pageSize))
     }
 
     render() {
         return (
             <div>
                 <EntryDialog attributes={this.state.attributes} onCreate={this.onCreate.bind(this)}/>
-                <EntryList entries={this.state.entries}/>
+                <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)}/>
             </div>
         )
     }

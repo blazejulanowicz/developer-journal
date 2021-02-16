@@ -1,6 +1,16 @@
 const React = require('react')
 
 class Entry extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.handleDelete = this.handleDelete.bind(this)
+    }
+
+    handleDelete(event) {
+        this.props.onDelete(this.props.entry)
+    }
+
     render() {
         return (
             <div className='entry'>
@@ -16,6 +26,7 @@ class Entry extends React.Component {
                 <div className='contentbox'>
                     <p>{this.props.entry.content}</p>
                 </div>
+                <button onClick={this.handleDelete}>DELETE</button>
             </div>
         )
     }
