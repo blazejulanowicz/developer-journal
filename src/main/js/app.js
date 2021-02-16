@@ -1,19 +1,19 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const axios = require('axios');
+const client = require('./client');
 const regeneratorRuntime = require("regenerator-runtime");
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {users: []};
+        this.state = {entries: []};
     }
 
     async componentDidMount() {
-        const response = await axios.get("http://localhost:8080/api/entries");
-        console.log(response.data);
-        this.setState({users: response.data._embedded.users});
+        let response = await client({method: 'GET', path: '/api/entries'});
+        this.setState({entries: response.entity._embedded.entries});
+        console.log(this.state.entries)
     }
 
     render() {
