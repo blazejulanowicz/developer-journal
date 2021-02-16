@@ -4,6 +4,7 @@ const client = require('./client');
 const regeneratorRuntime = require("regenerator-runtime");
 const EntryList = require('./components/EntryList');
 const follow = require('./api/follow')
+const EntryDialog = require('./EntryDialog')
 
 const root = '/api';
 
@@ -38,9 +39,25 @@ class App extends React.Component {
         });
     }
 
+    async onCreate(newEntry) {
+        const entriesCollection = await follow(client, root, ['entries']);
+        console.log(newEntry)
+        await client({
+            method: 'POST',
+            path: entriesCollection.entity._links.self.href,
+            entity: newEntry,
+            headers: {'Content-Type': 'application/json'}
+        });
+
+        const response = await follow(client, root, [{rel: 'entries', params: {'size': this.state.pageSize}}]);
+    }
+
     render() {
         return (
-            <EntryList entries={this.state.entries}/>
+            <div>
+                <EntryDialog attributes={this.state.attributes} onCreate={this.onCreate.bind(this)}/>
+                <EntryList entries={this.state.entries}/>
+            </div>
         )
     }
 }
