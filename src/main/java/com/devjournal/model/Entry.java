@@ -1,7 +1,7 @@
 package com.devjournal.model;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 public class Entry {
@@ -12,7 +12,7 @@ public class Entry {
 
     private String content;
 
-    private Date timestamp;
+    private Timestamp timestamp;
 
     @ManyToOne
     private User user;
@@ -36,11 +36,11 @@ public class Entry {
         this.content = content;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

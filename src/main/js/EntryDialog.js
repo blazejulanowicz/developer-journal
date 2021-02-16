@@ -15,7 +15,7 @@ class EntryDialog extends React.Component {
         let hours = currentDate.getHours() < 10 ? '0'+currentDate.getHours() : currentDate.getHours();
         let minutes = currentDate.getMinutes() < 10 ? '0'+currentDate.getMinutes() : currentDate.getMinutes();
         let seconds = currentDate.getSeconds() < 10 ? '0'+currentDate.getSeconds() : currentDate.getSeconds();
-        return currentDate.getFullYear() + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + '.000Z';
+        return currentDate.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
     }
 
     handleSubmit(event) {
