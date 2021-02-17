@@ -16,17 +16,17 @@ class Entry extends React.Component {
             <div className='entry'>
                 <div className='info'>
                     <div className='left-info'>
-                        <span className='username'>USERNAME</span>
+                        <h2 className='username'>USERNAME</h2>
                     </div>
                     <div className='right-info'>
-                        <div className='project-name'>PROJECT NAME</div>
-                        <div className='timestamp'>{this.props.entry.timestamp}</div>
+                        <h4 className='project-name'>PROJECT NAME</h4>
+                        <h4 className='timestamp'>{this.props.entry.timestamp}</h4>
                     </div>
                 </div>
                 <div className='contentbox'>
                     <p>{this.props.entry.content}</p>
                 </div>
-                <button onClick={this.handleDelete}>DELETE</button>
+                <button className='button' onClick={this.handleDelete}>DELETE</button>
             </div>
         )
     }

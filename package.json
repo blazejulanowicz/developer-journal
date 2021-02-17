@@ -9,7 +9,7 @@
   },
   "scripts": {
     "watch": "webpack --watch -d --output ./target/classes/static/built/bundle.js",
-    "build": "webpack --config webpack.config.js",
+    "build": "sass ./src/main/resources/static:./src/main/resources/static/built && webpack --config webpack.config.js",
     "check": "echo Checking frontend && npm run lint && npm run test",
     "clean": "echo Cleaning frontend",
     "lint": "echo Linting frontend",
@@ -21,6 +21,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.2",
     "webpack": "^4.19.1",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "sass": "^1.32.7"
   }
 }

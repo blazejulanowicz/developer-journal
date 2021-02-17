@@ -81,8 +81,12 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <EntryDialog attributes={this.state.attributes} onCreate={this.onCreate.bind(this)}/>
-                <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)}/>
+                <div className='top-bar'></div>
+                <div className='content'>
+                    <EntryDialog attributes={this.state.attributes} onCreate={this.onCreate.bind(this)}/>
+                    <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)}/>
+                </div>
+                <div className='sidebar'><h1>Developer journal</h1></div>
             </div>
         )
     }

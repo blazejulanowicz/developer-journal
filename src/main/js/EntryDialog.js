@@ -35,21 +35,15 @@ class EntryDialog extends React.Component {
         this.formRefs['content'] = React.createRef();
 
         return (
-            <div>
-                <a href="#createEntry">Create new entry</a>
-                <div id="createEntry" className="modal dialog">
-                    <div>
-                        <a href="#" title="Close">X</a>
-
-                        <h2>Create new entry</h2>
-
-                        <form>
-                            <p>
-                                <input type="text" placeholder='content' ref={this.formRefs['content']} className="entry-input-field"/>
-                            </p>
-                            <button onClick={this.handleSubmit}>ADD</button>
-                        </form>
-                    </div>
+            <div id="createEntry" className="entry">
+                <div>
+                    <h2>Create new entry</h2>
+                    <form>
+                        <p>
+                            <input type="text" placeholder='content' ref={this.formRefs['content']} className="entry-input-field"/>
+                        </p>
+                        <button onClick={this.handleSubmit}>ADD</button>
+                    </form>
                 </div>
             </div>
         )

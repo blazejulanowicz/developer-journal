@@ -1,0 +1,119 @@
+$sidebar-width: 30rem;
+$topbar-height: 8rem;
+$basic-font-size: 16px;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+@mixin front-shadow {
+    -webkit-box-shadow: -1px 1px 2px 3px rgba(19,18,77,1);
+    -moz-box-shadow: -1px 1px 2px 3px rgba(19,18,77,1);
+    box-shadow: -1px 1px 2px 3px rgba(19,18,77,1);
+}
+
+@mixin entry-shadow {
+    -webkit-box-shadow: -1px 1px 12px 4px rgba(36, 36, 36, 0.7);
+    -moz-box-shadow: -1px 1px 12px 4px rgba(36, 36, 36, 0.7);
+    box-shadow: -1px 1px 12px 4px rgba(36, 36, 36, 0.7);
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    font-family: 'Roboto', sans-serif;
+    color: whitesmoke;
+}
+
+p {
+    font-size: $basic-font-size;
+}
+
+.top-bar {
+    height: $topbar-height;
+    width: 100%;
+    background-color: #181849;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 998;
+    @include front-shadow;
+}
+
+.sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: $sidebar-width;
+    height: 100%;
+    background-color: #00002d;
+    z-index: 999;
+    @include front-shadow;
+    font-size: 50px;
+    color: white;
+    text-align: center;
+}
+
+.content {
+    margin-right: $sidebar-width;
+    margin-top: $topbar-height;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.entry-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px auto;
+    width: 100%;
+}
+
+.entry {
+    margin: 15px 5px;
+    background-color: rgba(36, 36, 36, 0.7);
+    border-radius: 15px;
+    min-height: 5rem;
+    padding: 10px;
+    width: 80%;
+    @include entry-shadow;
+
+    .username {
+        font-weight: bolder;
+    }
+
+    button {
+        float: right;
+        background-color: #555555;
+        border: none;
+        color: white;
+        padding: 10px 22px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #717171;
+    }
+    button:active {
+        background-color: #9a9a9a;
+    }
+}
+
+.entry .info {
+    padding-bottom: 5px;
+    border-bottom: 1px solid cornflowerblue;
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#createEntry {
+    width: 50%;
+    text-align: center;
+}
