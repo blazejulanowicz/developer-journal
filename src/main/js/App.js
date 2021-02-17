@@ -21,12 +21,12 @@ class App extends React.Component {
 
     async loadFromServer(pageSize) {
 
-        const entryCollection = await follow(
+        let entryCollection = await follow(
                 client,
                 root,
                 [{rel: 'entries', params: {size: pageSize}}]);
-        console.log(entryCollection);
-        const entrySchema = await client({
+
+        let entrySchema = await client({
                 method: 'GET',
                 path: entryCollection.entity._links.profile.href,
                 headers: {'Accept': 'application/schema+json'}});

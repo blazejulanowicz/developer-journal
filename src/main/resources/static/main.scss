@@ -11,9 +11,9 @@ $basic-font-size: 16px;
 }
 
 @mixin entry-shadow {
-    -webkit-box-shadow: -1px 1px 12px 4px rgba(36, 36, 36, 0.7);
-    -moz-box-shadow: -1px 1px 12px 4px rgba(36, 36, 36, 0.7);
-    box-shadow: -1px 1px 12px 4px rgba(36, 36, 36, 0.7);
+    -webkit-box-shadow: -1px 1px 12px 4px rgba(57, 57, 57, 0.7);
+    -moz-box-shadow: -1px 1px 12px 4px rgba(57, 57, 57, 0.7);
+    box-shadow: -1px 1px 12px 4px rgba(57, 57, 57, 0.7);
 }
 
 html {
@@ -72,7 +72,7 @@ p {
 
 .entry {
     margin: 15px 5px;
-    background-color: rgba(36, 36, 36, 0.7);
+    background-color: rgba(57, 57, 57, 0.7);
     border-radius: 15px;
     min-height: 5rem;
     padding: 10px;
@@ -116,4 +116,13 @@ p {
 #createEntry {
     width: 50%;
     text-align: center;
+}
+
+.slide-fade-up-enter {
+    opacity: 0.01;
+
+    .slide-fade-up-enter-active {
+        opacity: 1;
+        transition: opacity 500ms ease-in;
+    }
 }

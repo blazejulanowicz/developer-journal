@@ -4,6 +4,7 @@
   "dependencies": {
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-transition-group": "^4.4.1",
     "regenerator-runtime": "^0.13.7",
     "rest": "^1.3.2"
   },
