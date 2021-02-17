@@ -24,7 +24,7 @@ class App extends React.Component {
         let entryCollection = await follow(
                 client,
                 root,
-                [{rel: 'entries', params: {size: pageSize}}]);
+                [{rel: 'entries', params: {size: pageSize, sort: 'timestamp,desc'}}]);
 
         let entrySchema = await client({
                 method: 'GET',
@@ -62,12 +62,7 @@ class App extends React.Component {
             headers: {'Content-Type': 'application/json'}
         });
 
-        const response = await follow(client, root, [{rel: 'entries', params: {'size': this.state.pageSize}}]);
-
-        if(typeof response.entity._links.last !== 'undefined')
-            await this.onNavigate(response.entity._links.last.href);
-        else
-            await this.onNavigate(response.entity._links.self.href);
+        this.loadFromServer(this.state.pageSize);
     }
 
     onDelete(entry) {
@@ -84,7 +79,7 @@ class App extends React.Component {
                 <div className='top-bar'></div>
                 <div className='content'>
                     <EntryDialog attributes={this.state.attributes} onCreate={this.onCreate.bind(this)}/>
-                    <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)}/>
+                    <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)}/>
                 </div>
                 <div className='sidebar'><h1>Developer journal</h1></div>
             </div>
