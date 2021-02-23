@@ -1,9 +1,13 @@
 package com.devjournal.repository;
 
 import com.devjournal.model.User;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+@RepositoryRestResource(exported = false)
+public interface UserRepository extends Repository<User, Long> {
 
+    User save(User user);
+    User findByLogin(String login);
 }
