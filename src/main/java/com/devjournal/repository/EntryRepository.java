@@ -4,6 +4,7 @@ import com.devjournal.model.Entry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -23,11 +24,11 @@ public interface EntryRepository extends PagingAndSortingRepository<Entry, Long>
     Iterable<Entry> findAll(Sort sort);
 
     @Override
-    @PostFilter("filterObject.user.login == principal.username")
+    @Query("select o from Entry o where o.user.login = ?#{principal.username}")
     Page<Entry> findAll(Pageable pageable);
 
     @Override
-    @PostAuthorize("returnObject.empty() ? true : returnObject.get().user.login == principal.username")
+    @Query("select o from Entry o where o.id = ?1 and o.user.login = ?#{principal.username}")
     Optional<Entry> findById(Long aLong);
 
     @Override
@@ -47,11 +48,11 @@ public interface EntryRepository extends PagingAndSortingRepository<Entry, Long>
     long count();
 
     @Override
-    @PreAuthorize("@entryRepository.findById(#aLong)?.user.login = principal.username")
+    @PreAuthorize("@entryRepository.findById(#aLong)?.user.login == principal.username")
     void deleteById(@Param("aLong") Long aLong);
 
     @Override
-    @PreAuthorize("#entity.user.login = principal.username")
+    @PreAuthorize("#entity.user.login == principal.username")
     void delete(@Param("entity") Entry entity);
 
     @Override

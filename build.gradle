@@ -20,6 +20,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.4.2'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
+	implementation group: 'org.springframework.security', name: 'spring-security-data', version: '5.4.5'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
