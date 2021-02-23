@@ -8,7 +8,7 @@ class Entry extends React.Component {
     }
 
     handleDelete(event) {
-        this.props.onDelete(this.props.entry)
+        this.props.onDelete(this.props.entry.entity)
     }
 
     render() {
