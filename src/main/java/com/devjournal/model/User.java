@@ -1,10 +1,16 @@
 package com.devjournal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
 public class User {
+
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,20 +18,18 @@ public class User {
 
     private String login;
 
+    @JsonIgnore
     @Column(name = "pass_hash")
     private String passHash;
 
     @OneToMany(mappedBy = "owner")
     private Collection<Project> projects;
 
-    public User() {
+    protected User() { }
 
-    }
-
-    public User(int id, String login, String passHash) {
-        this.id = id;
+    public User(String login, String password) {
         this.login = login;
-        this.passHash = passHash;
+        this.setPassHash(password);
     }
 
     public long getId() {
@@ -44,12 +48,10 @@ public class User {
         this.login = login;
     }
 
-    public String getPassHash() {
-        return passHash;
-    }
+    public String getPassHash() { return passHash; }
 
-    public void setPassHash(String passHash) {
-        this.passHash = passHash;
+    public void setPassHash(String password) {
+        this.passHash = PASSWORD_ENCODER.encode(password);
     }
 
     public Collection<Project> getProjects() {
