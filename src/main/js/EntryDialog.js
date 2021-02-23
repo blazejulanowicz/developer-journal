@@ -24,7 +24,6 @@ class EntryDialog extends React.Component {
 
         newEntry['content'] = this.formRefs['content'].current.value.trim();
         newEntry['timestamp'] = this.getCurrentDate();
-        newEntry['user'] = 'http://localhost:8080/api/users/0';
         newEntry['project'] = 'http://localhost:8080/api/project/0'
 
         this.props.onCreate(newEntry);
