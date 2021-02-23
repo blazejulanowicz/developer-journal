@@ -18,7 +18,7 @@ class EntryList extends React.Component {
 
 
       const entries = this.props.entries.map(entry => {
-          return <Entry key={entry._links.self.href} entry={entry} onDelete={this.props.onDelete}/>
+          return <Entry key={entry.entity._links.self.href} entry={entry} onDelete={this.props.onDelete}/>
       });
 
         return (

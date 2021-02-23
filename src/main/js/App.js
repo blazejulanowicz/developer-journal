@@ -26,16 +26,26 @@ class App extends React.Component {
                 root,
                 [{rel: 'entries', params: {size: pageSize, sort: 'timestamp,desc'}}]);
 
+        this.links = entryCollection.entity._links;
+
         let entrySchema = await client({
                 method: 'GET',
                 path: entryCollection.entity._links.profile.href,
                 headers: {'Accept': 'application/schema+json'}});
 
+        entryCollection = await Promise.all(entryCollection.entity._embedded.entries.map(entry =>
+            client({
+                method: 'GET',
+                path: entry._links.self.href,
+                params: {projection: 'fullDetails'}
+            })
+        ));
+
         this.setState({
-            entries: entryCollection.entity._embedded.entries,
+            entries: entryCollection,
             attributes: Object.keys(entrySchema.entity.properties),
             pageSize: pageSize,
-            links: entryCollection.entity._links
+            links: this.links
         });
     }
 
