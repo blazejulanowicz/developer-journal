@@ -5,6 +5,7 @@ const regeneratorRuntime = require("regenerator-runtime");
 const EntryList = require('./components/EntryList');
 const follow = require('./api/follow')
 const EntryDialog = require('./EntryDialog')
+const ProjectList = require('./components/ProjectList')
 
 const root = '/api';
 
@@ -12,14 +13,15 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {entries: [], pageSize: 2, links: []};
+        this.state = {entries: [], pageSize: 2, links: [],
+        projects: [], projPageSize: 6, projLinks: []};
     }
 
     componentDidMount() {
         this.loadFromServer(this.state.pageSize).catch(error => console.log(error));
     }
 
-    async loadFromServer(pageSize) {
+    async loadFromServer(pageSize, projPageSize) {
 
         let entryCollection = await follow(
                 client,
@@ -28,7 +30,15 @@ class App extends React.Component {
 
         this.links = entryCollection.entity._links;
 
-        entryCollection = await Promise.all(entryCollection.entity._embedded.entries.map(entry =>
+        let projectCollection = await follow(
+            client,
+            root,
+            [{rel: 'projects', params: {size: projPageSize}}]
+        );
+
+        this.projLinks = projectCollection.entity._links;
+
+        entryCollection = Promise.all(entryCollection.entity._embedded.entries.map(entry =>
             client({
                 method: 'GET',
                 path: entry._links.self.href,
@@ -36,10 +46,22 @@ class App extends React.Component {
             })
         ));
 
+        projectCollection = Promise.all(projectCollection.entity._embedded.projects.map(project =>
+            client({
+                method: 'GET',
+                path: project._links.self.href
+            })
+        ));
+
+        [entryCollection, projectCollection] = await Promise.all([entryCollection, projectCollection])
+
         this.setState({
             entries: entryCollection,
             pageSize: pageSize,
-            links: this.links
+            links: this.links,
+            projects: projectCollection,
+            projPageSize: projPageSize,
+            projLinks: this.projLinks
         });
     }
 
@@ -86,7 +108,7 @@ class App extends React.Component {
                 </div>
                 <div className='sidebar'>
                     <h1>Developer journal</h1>
-                    <ProjectList />
+                    <ProjectList projects={this.state.projects}/>
                 </div>
             </div>
         )
