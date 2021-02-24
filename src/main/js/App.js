@@ -12,7 +12,7 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {entries: [], attributes: [], pageSize: 2, links: []};
+        this.state = {entries: [], pageSize: 2, links: []};
     }
 
     componentDidMount() {
@@ -28,11 +28,6 @@ class App extends React.Component {
 
         this.links = entryCollection.entity._links;
 
-        let entrySchema = await client({
-                method: 'GET',
-                path: entryCollection.entity._links.profile.href,
-                headers: {'Accept': 'application/schema+json'}});
-
         entryCollection = await Promise.all(entryCollection.entity._embedded.entries.map(entry =>
             client({
                 method: 'GET',
@@ -43,7 +38,6 @@ class App extends React.Component {
 
         this.setState({
             entries: entryCollection,
-            attributes: Object.keys(entrySchema.entity.properties),
             pageSize: pageSize,
             links: this.links
         });
@@ -57,7 +51,6 @@ class App extends React.Component {
 
         this.setState({
             entries: entryCollection.entity._embedded.entries,
-            attributes: this.state.attributes,
             pageSize: this.state.pageSize,
             links: entryCollection.entity._links
         });
@@ -88,10 +81,13 @@ class App extends React.Component {
             <div>
                 <div className='top-bar'></div>
                 <div className='content'>
-                    <EntryDialog attributes={this.state.attributes} onCreate={this.onCreate.bind(this)}/>
+                    <EntryDialog onCreate={this.onCreate.bind(this)}/>
                     <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)}/>
                 </div>
-                <div className='sidebar'><h1>Developer journal</h1></div>
+                <div className='sidebar'>
+                    <h1>Developer journal</h1>
+                    <ProjectList />
+                </div>
             </div>
         )
     }
