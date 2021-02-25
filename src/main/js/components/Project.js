@@ -1,7 +1,7 @@
 const React = require('react');
 const client = require('../client');
 
-function Project({ project }) {
+function Project({ project, onDelete }) {
 
     const detailsRef = React.createRef();
     const [entryCount, setEntryCount] = React.useState(0);
@@ -25,12 +25,16 @@ function Project({ project }) {
         }).catch(error => console.log(error))
     }
 
+    const handleDeleteButton = () => {
+        onDelete(project)
+    }
+
     return (
         <div className='project-info'>
             <a onClick={handleDetailsClick}><p>{project.entity.name}</p></a>
             <div ref={detailsRef} className='detail-view'>
                 <p>Entries: {entryCount}</p>
-                <a className='button'>DELETE PROJECT</a>
+                <a onClick={handleDeleteButton} className='button'>DELETE PROJECT</a>
             </div>
         </div>
     );

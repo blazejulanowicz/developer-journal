@@ -111,6 +111,14 @@ class App extends React.Component {
         this.loadFromServer(this.state.pageSize, this.state.projPageSize)
     }
 
+    onProjectDelete(project) {
+        client({
+            method: 'DELETE',
+            path: project.entity._links.self.href
+        })
+            .done(response => this.loadFromServer(this.state.pageSize, this.state.projPageSize))
+    }
+
     render() {
         return (
             <div>
@@ -121,7 +129,7 @@ class App extends React.Component {
                 </div>
                 <div className='sidebar'>
                     <h1>Developer journal</h1>
-                    <ProjectList projects={this.state.projects}/>
+                    <ProjectList projects={this.state.projects} onDelete={this.onProjectDelete.bind(this)}/>
                     <ProjectDialog onCreate={this.onProjectCreate.bind(this)}/>
                 </div>
             </div>
