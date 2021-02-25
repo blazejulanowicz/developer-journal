@@ -4,7 +4,7 @@ const client = require('./client');
 const regeneratorRuntime = require("regenerator-runtime");
 const EntryList = require('./components/EntryList');
 const follow = require('./api/follow')
-const EntryDialog = require('./EntryDialog')
+const EntryDialog = require('./components/EntryDialog')
 const ProjectList = require('./components/ProjectList')
 const ProjectDialog = require('./components/ProjectDialog')
 

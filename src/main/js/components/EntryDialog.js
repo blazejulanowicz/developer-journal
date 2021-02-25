@@ -26,6 +26,10 @@ class EntryDialog extends React.Component {
         newEntry['timestamp'] = this.getCurrentDate();
         newEntry['project'] = this.formRefs['project'].current.value;
 
+        //TODO: THIS IS ONLY TEMPORARY, MAKE SOMEKIND OF ALERT
+        if(newEntry['content'] === '' || newEntry['project'] === '')
+            return;
+
         this.props.onCreate(newEntry);
         this.formRefs['content'].current.value = '';
     }
