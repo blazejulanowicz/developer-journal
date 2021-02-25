@@ -116,7 +116,7 @@ class App extends React.Component {
             <div>
                 <div className='top-bar'></div>
                 <div className='content'>
-                    <EntryDialog onCreate={this.onCreate.bind(this)}/>
+                    <EntryDialog onCreate={this.onCreate.bind(this)}  projects={this.state.projects}/>
                     <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)}/>
                 </div>
                 <div className='sidebar'>

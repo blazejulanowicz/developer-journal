@@ -24,7 +24,7 @@ class EntryDialog extends React.Component {
 
         newEntry['content'] = this.formRefs['content'].current.value.trim();
         newEntry['timestamp'] = this.getCurrentDate();
-        newEntry['project'] = 'http://localhost:8080/api/project/0'
+        newEntry['project'] = this.formRefs['project'].current.value;
 
         this.props.onCreate(newEntry);
         this.formRefs['content'].current.value = '';
@@ -32,15 +32,18 @@ class EntryDialog extends React.Component {
 
     render() {
         this.formRefs['content'] = React.createRef();
+        this.formRefs['project'] = React.createRef();
 
         return (
             <div id="createEntry" className="entry">
                 <div>
                     <h2>Create new entry</h2>
-                    <form>
-                        <p>
-                            <input type="text" placeholder='content' ref={this.formRefs['content']} className="entry-input-field"/>
-                        </p>
+                    <form id='new-entry-form'>
+                        <input type="text" placeholder='content' ref={this.formRefs['content']} className="entry-input-field"/>
+                        <label htmlFor='project-dropdown'>Project: </label>
+                        <select id='project-dropdown' ref={this.formRefs['project']}>
+                            {this.props.projects.map(project => <option key={project.entity._links.self.href} value={project.entity._links.self.href}>{project.entity.name}</option>)}
+                        </select>
                         <button onClick={this.handleSubmit}>ADD</button>
                     </form>
                 </div>
