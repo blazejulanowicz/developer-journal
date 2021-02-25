@@ -2,6 +2,7 @@ package com.devjournal.handler;
 
 
 import com.devjournal.model.Entry;
+import com.devjournal.model.Project;
 import com.devjournal.model.User;
 import com.devjournal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,14 @@ public class SpringDataRestEventHandler {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByLogin(username);
         entry.setUser(user);
+    }
+
+    @HandleBeforeCreate
+    @HandleBeforeSave
+    public void applyUserInformationOnProject(final Project project) {
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByLogin(username);
+        project.setOwner(user);
     }
 }
