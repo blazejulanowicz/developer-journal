@@ -4,7 +4,7 @@ function Project({ project }) {
 
     return (
         <div>
-            <a>{project.entity.name}</a>
+            <p>{project.entity.name}</p>
         </div>
     );
 }

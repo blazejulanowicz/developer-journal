@@ -6,6 +6,7 @@ const EntryList = require('./components/EntryList');
 const follow = require('./api/follow')
 const EntryDialog = require('./EntryDialog')
 const ProjectList = require('./components/ProjectList')
+const ProjectDialog = require('./components/ProjectDialog')
 
 const root = '/api';
 
@@ -18,7 +19,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.loadFromServer(this.state.pageSize).catch(error => console.log(error));
+        this.loadFromServer(this.state.pageSize, this.state.projPageSize).catch(error => console.log(error));
     }
 
     async loadFromServer(pageSize, projPageSize) {
@@ -87,7 +88,7 @@ class App extends React.Component {
             headers: {'Content-Type': 'application/json'}
         });
 
-        this.loadFromServer(this.state.pageSize);
+        this.loadFromServer(this.state.pageSize, this.state.projPageSize);
     }
 
     onDelete(entry) {
@@ -95,7 +96,19 @@ class App extends React.Component {
             method: 'DELETE',
             path: entry._links.self.href
         })
-            .done(response => this.loadFromServer(this.state.pageSize))
+            .done(response => this.loadFromServer(this.state.pageSize, this.state.projPageSize))
+    }
+
+    async onProjectCreate(newProject) {
+        const projectCollection = await follow(client, root, ['projects']);
+        await client({
+            method: 'POST',
+            path: projectCollection.entity._links.self.href,
+            entity: newProject,
+            headers: {'Content-Type': 'application/json'}
+        });
+
+        this.loadFromServer(this.state.pageSize, this.state.projPageSize)
     }
 
     render() {
@@ -109,6 +122,7 @@ class App extends React.Component {
                 <div className='sidebar'>
                     <h1>Developer journal</h1>
                     <ProjectList projects={this.state.projects}/>
+                    <ProjectDialog onCreate={this.onProjectCreate.bind(this)}/>
                 </div>
             </div>
         )
