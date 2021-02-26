@@ -1,11 +1,22 @@
 const React = require('react')
 const Project = require('./Project')
 
-function ProjectList({ projects, onDelete }) {
+function ProjectList({ projects, activeFilter, onDelete, onFilterChange }) {
+
+    const isProjectInFilter = (project) => {
+
+        for(let i = 0; i < activeFilter.length; i++) {
+            if(activeFilter[i].entity._links.self.href === project.entity._links.self.href) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     return (
         <div>
-            {projects.map(project => <Project key={project.entity._links.self.href} project={project} onDelete={onDelete}/>)}
+            {projects.map(project => <Project key={project.entity._links.self.href} isActive={isProjectInFilter(project)} project={project} onDelete={onDelete} onFilterChange={onFilterChange}/>)}
         </div>
     );
 }

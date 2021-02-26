@@ -15,22 +15,17 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {entries: [], pageSize: 2, links: [],
-        projects: [], projPageSize: 6, projLinks: []};
+        projects: [], projPageSize: 6, projLinks: [],
+        activeProjects: []};
     }
 
     componentDidMount() {
-        this.loadFromServer(this.state.pageSize, this.state.projPageSize).catch(error => console.log(error));
+        this.loadProjects(this.state.projPageSize)
+            .then(response => this.loadFromServer(this.state.pageSize, this.state.projects))
+        .catch(error => console.log(error));
     }
 
-    async loadFromServer(pageSize, projPageSize) {
-
-        let entryCollection = await follow(
-                client,
-                root,
-                [{rel: 'entries', params: {size: pageSize, sort: 'timestamp,desc'}}]);
-
-        this.links = entryCollection.entity._links;
-
+    async loadProjects(projPageSize) {
         let projectCollection = await follow(
             client,
             root,
@@ -39,7 +34,34 @@ class App extends React.Component {
 
         this.projLinks = projectCollection.entity._links;
 
-        entryCollection = Promise.all(entryCollection.entity._embedded.entries.map(entry =>
+        await projectCollection = Promise.all(projectCollection.entity._embedded.projects.map(project =>
+            client({
+                method: 'GET',
+                path: project._links.self.href
+            })
+        ));
+
+        this.setState({
+            projects: projectCollection,
+            projPageSize: projPageSize,
+            projLinks: this.projLinks,
+            ...
+        })
+    }
+
+    async loadFromServer(pageSize, activeProjects) {
+
+        let entryCollection = await follow(
+                client,
+                root,
+                [{rel: 'entries', params: {size: pageSize, sort: 'timestamp,desc'}}]);
+
+        this.links = entryCollection.entity._links;
+
+
+
+        entryCollection = Promise.all(entryCollection.entity._embedded.entries
+            .map(entry =>
             client({
                 method: 'GET',
                 path: entry._links.self.href,
@@ -47,12 +69,7 @@ class App extends React.Component {
             })
         ));
 
-        projectCollection = Promise.all(projectCollection.entity._embedded.projects.map(project =>
-            client({
-                method: 'GET',
-                path: project._links.self.href
-            })
-        ));
+
 
         [entryCollection, projectCollection] = await Promise.all([entryCollection, projectCollection])
 
@@ -60,9 +77,6 @@ class App extends React.Component {
             entries: entryCollection,
             pageSize: pageSize,
             links: this.links,
-            projects: projectCollection,
-            projPageSize: projPageSize,
-            projLinks: this.projLinks
         });
     }
 
@@ -119,6 +133,16 @@ class App extends React.Component {
             .done(response => this.loadFromServer(this.state.pageSize, this.state.projPageSize))
     }
 
+    onProjectFilterChange(project) {
+        for(let i = 0; i < this.state.activeProjects.length; i++) {
+            if(this.state.activeProjects[i].entity._links.self.href === project.entity._links.self.href) {
+                this.state.activeProjects.splice(i, 1);
+                return;
+            }
+        }
+        this.state.activeProjects.push(project);
+    }
+
     render() {
         return (
             <div>
@@ -129,7 +153,7 @@ class App extends React.Component {
                 </div>
                 <div className='sidebar'>
                     <h1>Developer journal</h1>
-                    <ProjectList projects={this.state.projects} onDelete={this.onProjectDelete.bind(this)}/>
+                    <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)}/>
                     <ProjectDialog onCreate={this.onProjectCreate.bind(this)}/>
                 </div>
             </div>
