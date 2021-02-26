@@ -34,7 +34,7 @@ class App extends React.Component {
 
         this.projLinks = projectCollection.entity._links;
 
-        await projectCollection = Promise.all(projectCollection.entity._embedded.projects.map(project =>
+        projectCollection = await Promise.all(projectCollection.entity._embedded.projects.map(project =>
             client({
                 method: 'GET',
                 path: project._links.self.href
@@ -45,7 +45,7 @@ class App extends React.Component {
             projects: projectCollection,
             projPageSize: projPageSize,
             projLinks: this.projLinks,
-            ...
+            ...this.state
         })
     }
 
