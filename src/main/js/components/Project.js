@@ -10,7 +10,7 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
     React.useEffect(() => {
         isActive ? nameRef.current.classList.add('active') : nameRef.current.classList.remove('active');
         getEntriesCount();
-    },[])
+    });
 
     const handleDetailsClick = (event) => {
         detailsRef.current.classList.toggle('hidden');

@@ -21,7 +21,6 @@ class App extends React.Component {
 
     componentDidMount() {
         this.loadProjects(this.state.projPageSize)
-            .then(response => this.loadFromServer(this.state.pageSize))
         .catch(error => console.log(error));
     }
 
@@ -47,6 +46,8 @@ class App extends React.Component {
             projLinks: this.projLinks,
             activeProjects: Object.assign([], projectCollection)
         });
+
+        await this.loadFromServer(this.state.pageSize);
     }
 
     async loadFromServer(pageSize) {
@@ -124,7 +125,7 @@ class App extends React.Component {
             headers: {'Content-Type': 'application/json'}
         });
 
-        this.loadFromServer(this.state.pageSize)
+        this.loadProjects(this.state.projPageSize).catch(error => console.error(error));
     }
 
     onProjectDelete(project) {
@@ -132,7 +133,8 @@ class App extends React.Component {
             method: 'DELETE',
             path: project.entity._links.self.href
         })
-            .done(response => this.loadFromServer(this.state.pageSize))
+            .done(response => this.loadProjects(this.state.projPageSize))
+            .catch(error => console.error(error));
     }
 
     onProjectFilterChange(project) {
