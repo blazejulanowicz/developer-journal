@@ -6,6 +6,7 @@ const mime = require('rest/interceptor/mime');
 const errorCode = require('rest/interceptor/errorCode');
 const baseRegistry = require('rest/mime/registry');
 const uriTemplateInterceptor = require('./api/uriTemplateInterceptor')
+const uriTemplateListInterceptor = require('./api/uriTemplateListInterceptor')
 
 const registry = baseRegistry.child();
 
@@ -14,6 +15,7 @@ registry.register('application/hal+json', require('rest/mime/type/application/ha
 
 module.exports = rest
                     .wrap(mime, {registry: registry})
+                    .wrap(uriTemplateListInterceptor)
                     .wrap(uriTemplateInterceptor)
                     .wrap(errorCode)
                     .wrap(defaultRequest, {headers: {'Accept' : 'application/hal+json'}});

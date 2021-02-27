@@ -31,7 +31,6 @@ class App extends React.Component {
             root,
             [{rel: 'projects', params: {size: projPageSize}}]
         );
-
         this.projLinks = projectCollection.entity._links;
 
         projectCollection = await Promise.all(projectCollection.entity._embedded.projects.map(project =>
@@ -42,11 +41,11 @@ class App extends React.Component {
         ));
 
         this.setState({
+            ...this.state,
             projects: projectCollection,
             projPageSize: projPageSize,
             projLinks: this.projLinks,
-            ...this.state
-        })
+        });
     }
 
     async loadFromServer(pageSize, activeProjects) {
@@ -54,7 +53,12 @@ class App extends React.Component {
         let entryCollection = await follow(
                 client,
                 root,
-                [{rel: 'entries', params: {size: pageSize, sort: 'timestamp,desc'}}]);
+                ["entries", "search", {rel: 'findByProjectIn',
+                    params: { size: pageSize,
+                        sort: 'timestamp,desc',
+                        projects: activeProjects.map(project => project.entity._links.self.href)}}]);
+
+        console.log(entryCollection);
 
         this.links = entryCollection.entity._links;
 
@@ -74,6 +78,7 @@ class App extends React.Component {
         [entryCollection, projectCollection] = await Promise.all([entryCollection, projectCollection])
 
         this.setState({
+            ...this.state,
             entries: entryCollection,
             pageSize: pageSize,
             links: this.links,

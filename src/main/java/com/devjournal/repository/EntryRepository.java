@@ -12,8 +12,11 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 @PreAuthorize("isFullyAuthenticated()")
@@ -31,8 +34,8 @@ public interface EntryRepository extends PagingAndSortingRepository<Entry, Long>
     @Query("select o from Entry o where o.id = ?1 and o.user.login = ?#{principal.username}")
     Optional<Entry> findById(Long aLong);
 
-    @Query("select o from Entry o where o.project in :projects and o.user.login = ?#{principal.username}")
-    Page<Entry> findByProjectIn(Pageable pageable, @Param("projects") Project... projects);
+    @Query("select o from Entry o where o.project in (:projects) and o.user.login = ?#{principal.username}")
+    Page<Entry> findByProjectIn(Project[] projects, Pageable pageable);
 
     @Override
     @RestResource(exported = false)
