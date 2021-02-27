@@ -1,11 +1,14 @@
 const React = require('react');
 const client = require('../client');
+const {FontAwesomeIcon} = require('@fortawesome/react-fontawesome')
+const {faAngleDown, faAngleUp} = require('@fortawesome/free-solid-svg-icons');
 
 function Project({ isActive, project, onDelete, onFilterChange }) {
 
     const detailsRef = React.createRef();
     const nameRef = React.createRef();
     const [entryCount, setEntryCount] = React.useState(0);
+    const [detailsOn, setDetailsOn] = React.useState(false);
 
     React.useEffect(() => {
         isActive ? nameRef.current.classList.add('active') : nameRef.current.classList.remove('active');
@@ -14,6 +17,7 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
 
     const handleDetailsClick = (event) => {
         detailsRef.current.classList.toggle('hidden');
+        setDetailsOn(!detailsOn);
     };
 
     const handleFilterClick = (event) => {
@@ -38,8 +42,8 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
     return (
         <div className='project-info'>
             <div ref={nameRef} className={'project-name'}>
-                <span><a onClick={handleFilterClick}>{project.entity.name}</a></span>
-                <span><a onClick={handleDetailsClick}>  [+]</a></span>
+                <a onClick={handleFilterClick}>{project.entity.name}</a>
+                <FontAwesomeIcon className={'details-icon'} icon={detailsOn ? faAngleUp : faAngleDown} onClick={handleDetailsClick}/>
             </div>
             <div ref={detailsRef} className='detail-view hidden'>
                 <p>Entries: {entryCount}</p>

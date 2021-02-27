@@ -16,6 +16,7 @@ function ProjectList({ projects, activeFilter, onDelete, onFilterChange }) {
 
     return (
         <div>
+            <h4 id='all-projects-topic'>All projects</h4>
             {projects.map(project => <Project key={project.entity._links.self.href} isActive={isProjectInFilter(project)} project={project} onDelete={onDelete} onFilterChange={onFilterChange}/>)}
         </div>
     );
