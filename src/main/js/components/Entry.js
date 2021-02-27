@@ -19,7 +19,7 @@ class Entry extends React.Component {
                         <h2 className='username'>{this.props.entry.entity.user.login}</h2>
                     </div>
                     <div className='right-info'>
-                        <h4 className='project-name'>{this.props.entry.entity.project.name}</h4>
+                        <h4 className='entry-project-name'>{this.props.entry.entity.project.name}</h4>
                         <h4 className='timestamp'>{this.props.entry.entity.timestamp}</h4>
                     </div>
                 </div>

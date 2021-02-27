@@ -15,13 +15,11 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
         }
         else
             detailsRef.current.style.display = 'none';
-
-        onFilterChange(project)
     };
 
     const handleFilterClick = (event) => {
         isActive ? nameRef.current.classList.add('active') : nameRef.current.classList.remove('active');
-        onFilterChange(project)
+        onFilterChange(project);
     }
 
     const getEntriesCount = () => {
@@ -29,6 +27,7 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
             method: 'GET',
             path: project.entity._links.entries.href.split('{')[0]
         }).then(response => {
+            console.log(response)
             setEntryCount(response.entity._embedded.entries.length)
         }).catch(error => console.log(error))
     }
@@ -39,7 +38,7 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
 
     return (
         <div className='project-info'>
-            <a ref={nameRef} className={'project-name'} onClick={handleFilterClick}><p>{project.entity.name}</p></a>
+            <a ref={nameRef} className={'project-name'} onClick={handleFilterClick}><h4>{project.entity.name}</h4></a>
             <a onClick={handleDetailsClick}><h4>+</h4></a>
             <div ref={detailsRef} className='detail-view'>
                 <p>Entries: {entryCount}</p>
