@@ -70,6 +70,7 @@ p {
     font-size: 50px;
     color: white;
     text-align: center;
+    overflow: auto;
 }
 
 .content {
@@ -157,11 +158,12 @@ p {
 }
 
 .project-info {
-    margin: 5px 10px;
+    margin: 15px 10px;
+    font-size: 2rem;
 }
 
 .detail-view {
-    display: none;
+    display: flex;
     -webkit-box-shadow: inset 0px 0px 5px 3px rgba(0,0,0,0.75);
     -moz-box-shadow: inset 0px 0px 5px 3px rgba(0,0,0,0.75);
     box-shadow: inset 0px 0px 5px 3px rgba(0,0,0,0.75);
@@ -171,12 +173,15 @@ p {
 
 .project-name {
     background-color: #181849;
-    font-size: 1.5rem;
 
     &.active {
-        background-color: #5c5cc2;
+        background-color: #5c5cc2 !important;
         -webkit-box-shadow: inset 0px 0px 5px 3px rgba(0,0,0,0.75);
         -moz-box-shadow: inset 0px 0px 5px 3px rgba(0,0,0,0.75);
         box-shadow: inset 0px 0px 5px 3px rgba(0,0,0,0.75);
     }
+}
+
+.hidden {
+    display: none !important;
 }

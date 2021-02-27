@@ -7,18 +7,17 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
     const nameRef = React.createRef();
     const [entryCount, setEntryCount] = React.useState(0);
 
+    React.useEffect(() => {
+        isActive ? nameRef.current.classList.add('active') : nameRef.current.classList.remove('active');
+        getEntriesCount();
+    },[])
 
     const handleDetailsClick = (event) => {
-        if(detailsRef.current.style.display === 'none') {
-            getEntriesCount();
-            detailsRef.current.style.display = 'flex';
-        }
-        else
-            detailsRef.current.style.display = 'none';
+        detailsRef.current.classList.toggle('hidden');
     };
 
     const handleFilterClick = (event) => {
-        isActive ? nameRef.current.classList.add('active') : nameRef.current.classList.remove('active');
+        nameRef.current.classList.toggle('active')
         onFilterChange(project);
     }
 
@@ -38,9 +37,11 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
 
     return (
         <div className='project-info'>
-            <a ref={nameRef} className={'project-name'} onClick={handleFilterClick}><h4>{project.entity.name}</h4></a>
-            <a onClick={handleDetailsClick}><h4>+</h4></a>
-            <div ref={detailsRef} className='detail-view'>
+            <div ref={nameRef} className={'project-name'}>
+                <span><a onClick={handleFilterClick}>{project.entity.name}</a></span>
+                <span><a onClick={handleDetailsClick}>  [+]</a></span>
+            </div>
+            <div ref={detailsRef} className='detail-view hidden'>
                 <p>Entries: {entryCount}</p>
                 <a onClick={handleDeleteButton} className='button'>DELETE PROJECT</a>
             </div>
