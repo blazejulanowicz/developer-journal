@@ -64,7 +64,7 @@ class App extends React.Component {
 
 
 
-        entryCollection = Promise.all(entryCollection.entity._embedded.entries
+        entryCollection = await Promise.all(entryCollection.entity._embedded.entries
             .map(entry =>
             client({
                 method: 'GET',
@@ -72,10 +72,6 @@ class App extends React.Component {
                 params: {projection: 'fullDetails'}
             })
         ));
-
-
-
-        [entryCollection, projectCollection] = await Promise.all([entryCollection, projectCollection])
 
         this.setState({
             ...this.state,
