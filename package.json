@@ -17,7 +17,8 @@
     "check": "echo Checking frontend && npm run lint && npm run test",
     "clean": "echo Cleaning frontend",
     "lint": "echo Linting frontend",
-    "test": "echo Testing frontend"
+    "test": "echo Testing frontend",
+    "build-css": "sass ./src/main/resources/static:./src/main/resources/static/built"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",
