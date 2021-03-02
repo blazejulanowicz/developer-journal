@@ -22,8 +22,8 @@ public class User {
     @Column(name = "pass_hash")
     private String passHash;
 
-    @OneToMany(mappedBy = "owner")
-    private Collection<Project> projects;
+    @JsonIgnore
+    private String githubAccessToken;
 
     protected User() { }
 
@@ -54,11 +54,11 @@ public class User {
         this.passHash = PASSWORD_ENCODER.encode(password);
     }
 
-    public Collection<Project> getProjects() {
-        return projects;
+    public String getGithubAccessToken() {
+        return githubAccessToken;
     }
 
-    public void setProjects(Collection<Project> projects) {
-        this.projects = projects;
+    public void setGithubAccessToken(String githubAccessToken) {
+        this.githubAccessToken = githubAccessToken;
     }
 }
