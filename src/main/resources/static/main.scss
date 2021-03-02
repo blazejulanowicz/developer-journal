@@ -105,6 +105,8 @@ p {
 }
 
 .sidebar {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     right: 0;
     top: 0;
@@ -366,4 +368,31 @@ p {
 .details-icon {
     font-size: 2rem;
     margin-left: 10px;
+}
+
+.user-panel {
+    margin-bottom: 0;
+    margin-top: auto;
+    width: 100%;
+}
+
+.min-user-panel {
+    padding: 20px 0;
+    font-size: 1.5rem;
+    background-color: #34495e;
+    height: 2rem;
+}
+
+.user-panel-username {
+    padding-left: 10px;
+    float: left;
+    font-weight: bolder;
+}
+
+.user-panel-options {
+    display: flex;
+    justify-content: space-evenly;
+    border-left: 2px solid #2b2b49;
+    float: right;
+    min-width: 25%;
 }

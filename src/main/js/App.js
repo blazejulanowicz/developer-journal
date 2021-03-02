@@ -3,10 +3,11 @@ const ReactDOM = require('react-dom');
 const client = require('./client');
 const regeneratorRuntime = require("regenerator-runtime");
 const EntryList = require('./components/EntryList');
-const follow = require('./api/follow')
-const EntryDialog = require('./components/EntryDialog')
-const ProjectList = require('./components/ProjectList')
-const ProjectDialog = require('./components/ProjectDialog')
+const follow = require('./api/follow');
+const EntryDialog = require('./components/EntryDialog');
+const ProjectList = require('./components/ProjectList');
+const ProjectDialog = require('./components/ProjectDialog');
+const UserPanel = require('./components/UserPanel');
 
 const root = '/api';
 
@@ -16,12 +17,22 @@ class App extends React.Component {
         super(props);
         this.state = {entries: [], pageSize: 2, links: [],
         projects: [], projPageSize: 6, projLinks: [],
-        activeProjects: []};
+        activeProjects: [], userDetails: ""};
     }
 
     componentDidMount() {
+        this.loadUserDetails().catch(error => console.log(error));
         this.loadProjects(this.state.projPageSize)
         .catch(error => console.log(error));
+    }
+
+    async loadUserDetails() {
+        let userDetails = await client({
+            method: 'GET',
+            path: '/user/logDetails'
+        });
+
+        this.state.userDetails = userDetails.entity;
     }
 
     async loadProjects(projPageSize) {
@@ -59,8 +70,6 @@ class App extends React.Component {
                     params: { size: pageSize,
                         sort: 'timestamp,desc',
                         projects: this.state.activeProjects.map(project => project.entity._links.self.href)}}]);
-
-        console.log(entryCollection);
 
         this.links = entryCollection.entity._links;
 
@@ -150,6 +159,15 @@ class App extends React.Component {
         this.loadFromServer(this.state.pageSize).catch(error => console.error(error))
     }
 
+    async onLogout() {
+        await client({
+            method: 'POST',
+            path: '/logout'
+        });
+        this.state.userDetails = "";
+        window.location.reload(false);
+    }
+
     render() {
         return (
             <div>
@@ -162,6 +180,7 @@ class App extends React.Component {
                     <h1>Developer journal</h1>
                     <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)}/>
                     <ProjectDialog onCreate={this.onProjectCreate.bind(this)}/>
+                    <UserPanel loggedUser={this.state.userDetails} onLogout={this.onLogout.bind(this)}/>
                 </div>
             </div>
         )
