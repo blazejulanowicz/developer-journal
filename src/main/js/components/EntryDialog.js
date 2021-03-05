@@ -8,8 +8,9 @@ class EntryDialog extends React.Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleExpand = this.handleExpand.bind(this);
-        this.formRefs = []
-        this.iconRef = null;
+        this.projectRef = React.createRef();
+        this.contentRef = React.createRef();
+        this.iconRef = React.createRef();
     }
 
     getCurrentDate() {
@@ -26,16 +27,16 @@ class EntryDialog extends React.Component {
         event.preventDefault();
         const newEntry = {};
 
-        newEntry['content'] = this.formRefs['content'].current.value.trim();
+        newEntry['content'] = this.contentRef.current.value.trim();
         newEntry['timestamp'] = this.getCurrentDate();
-        newEntry['project'] = this.formRefs['project'].current.value;
+        newEntry['project'] = this.projectRef.current.value;
 
         //TODO: THIS IS ONLY TEMPORARY, MAKE SOMEKIND OF ALERT
         if(newEntry['content'] === '' || newEntry['project'] === '')
             return;
 
         this.props.onCreate(newEntry);
-        this.formRefs['content'].current.value = '';
+        this.contentRef.current.value = '';
         this.iconRef.current.click();
     }
 
@@ -46,19 +47,15 @@ class EntryDialog extends React.Component {
     }
 
     render() {
-        this.formRefs['content'] = React.createRef();
-        this.formRefs['project'] = React.createRef();
-        this.iconRef = React.createRef();
-
         return (
             <div id="createEntry" className="entry new-entry-nexpanded">
                     <div ref={this.iconRef} onClick={this.handleExpand}><FontAwesomeIcon className='expand-icon' icon={faPlus}/></div>
                     <div className='animated'>
                         <h1>Create new entry</h1>
                         <form id='new-entry-form'>
-                            <textarea type="text" placeholder='Enter content...' ref={this.formRefs['content']} className="input-field"/>
+                            <textarea type="text" placeholder='Enter content...' ref={this.contentRef} className="input-field"/>
                             <div className="additional-options">
-                                <select id='project-dropdown' className='dropdown' ref={this.formRefs['project']}>
+                                <select id='project-dropdown' className='dropdown' ref={this.projectRef}>
                                     <option selected disabled>Choose project...</option>
                                     {this.props.projects.map(project => <option key={project.entity._links.self.href} value={project.entity._links.self.href}>{project.entity.name}</option>)}
                                 </select>
