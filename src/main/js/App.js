@@ -7,7 +7,7 @@ const EntryDialog = require('./components/EntryDialog');
 const ProjectList = require('./components/ProjectList');
 const ProjectDialog = require('./components/ProjectDialog');
 
-const root = '/api';
+const root = '/api/';
 
 class App extends React.Component {
 

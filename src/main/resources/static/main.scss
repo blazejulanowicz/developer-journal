@@ -108,7 +108,7 @@ p {
     top: 0;
     width: $sidebar-width;
     height: 100%;
-    background-color: rgba(50, 48, 48, 0.5);
+    background-color: rgba(48, 48, 48, 0.2);
     z-index: 1;
     border-left: 1px solid #2b2b49;
     color: white;
@@ -376,7 +376,7 @@ p {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #00002d;
+    background-color: rgba(40, 40, 40, 1);
     border-bottom: 1px solid rgba(76, 76, 76, 0.7);
     height: $navbar-height;
 }
