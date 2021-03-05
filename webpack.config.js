@@ -1,7 +1,7 @@
 var path = require('path')
 
 module.exports = {
-    entry: './src/main/js/App.js',
+    entry: './src/main/js/ContextProvider.js',
     devtool: 'sourcemaps',
     cache: true,
     mode: 'development',

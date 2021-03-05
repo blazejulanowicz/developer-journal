@@ -1,6 +1,7 @@
 const React = require('react');
 const {FontAwesomeIcon} = require('@fortawesome/react-fontawesome')
 const {faSignOutAlt, faCog} = require('@fortawesome/free-solid-svg-icons');
+const {Link} = require('react-router-dom');
 
 const UserPanel = ({ loggedUser, onLogout }) => {
 
@@ -11,10 +12,10 @@ const UserPanel = ({ loggedUser, onLogout }) => {
     return (
         <div className="user-panel">
             <div className='min-user-panel'>
-                <span className='user-panel-username'>{loggedUser.username}</span>
+                <span className='user-panel-username panel-element'>{loggedUser.username}</span>
                 <span className='user-panel-options'>
-                    <span><FontAwesomeIcon icon={faCog}/></span>
-                    <span onClick={onLogoutClick}><FontAwesomeIcon icon={faSignOutAlt}/></span>
+                    <span className='panel-element'><Link to="/settings"><FontAwesomeIcon icon={faCog}/></Link></span>
+                    <span className='panel-element' onClick={onLogoutClick}><FontAwesomeIcon icon={faSignOutAlt}/></span>
                 </span>
             </div>
         </div>

@@ -1,5 +1,4 @@
 const React = require('react');
-const ReactDOM = require('react-dom');
 const client = require('./client');
 const regeneratorRuntime = require("regenerator-runtime");
 const EntryList = require('./components/EntryList');
@@ -7,7 +6,6 @@ const follow = require('./api/follow');
 const EntryDialog = require('./components/EntryDialog');
 const ProjectList = require('./components/ProjectList');
 const ProjectDialog = require('./components/ProjectDialog');
-const UserPanel = require('./components/UserPanel');
 
 const root = '/api';
 
@@ -21,18 +19,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.loadUserDetails().catch(error => console.log(error));
+        this.state.userDetails = this.props.userDetails;
         this.loadProjects(this.state.projPageSize)
         .catch(error => console.log(error));
-    }
-
-    async loadUserDetails() {
-        let userDetails = await client({
-            method: 'GET',
-            path: '/user/logDetails'
-        });
-
-        this.state.userDetails = userDetails.entity;
     }
 
     async loadProjects(projPageSize) {
@@ -159,35 +148,20 @@ class App extends React.Component {
         this.loadFromServer(this.state.pageSize).catch(error => console.error(error))
     }
 
-    async onLogout() {
-        await client({
-            method: 'POST',
-            path: '/logout'
-        });
-        this.state.userDetails = "";
-        window.location.reload(false);
-    }
-
     render() {
         return (
-            <div>
-                <div className='top-bar'></div>
+            <div className='page-content'>
                 <div className='content'>
                     <EntryDialog onCreate={this.onCreate.bind(this)}  projects={this.state.projects}/>
                     <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)}/>
                 </div>
                 <div className='sidebar'>
-                    <h1>Developer journal</h1>
                     <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)}/>
                     <ProjectDialog onCreate={this.onProjectCreate.bind(this)}/>
-                    <UserPanel loggedUser={this.state.userDetails} onLogout={this.onLogout.bind(this)}/>
                 </div>
             </div>
         )
     }
 }
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('react')
-)
+module.exports = App;
