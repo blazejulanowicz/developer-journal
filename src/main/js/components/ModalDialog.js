@@ -21,11 +21,13 @@ const ModalDialog = ({dialogName, inputOptions, onSubmit, isVisible}) => {
     }, [isVisible]);
 
     const handleSubmit = (event) => {
+        event.preventDefault();
         let returnValues =  formInputs.map(input => {
-           return input.ref.currentTarget.value;
+           return input.ref.current.value;
         });
         dialogRef.current.style.display = 'none';
-        return returnValues;
+        console.debug(returnValues);
+        onSubmit(returnValues);
     };
 
     return(

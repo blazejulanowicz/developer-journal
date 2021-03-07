@@ -9,5 +9,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface UserRepository extends Repository<User, Long> {
 
     User save(User user);
-    User findByLogin(String login);
+    User findByUsername(String login);
 }

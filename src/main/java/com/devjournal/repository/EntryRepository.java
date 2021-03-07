@@ -23,18 +23,18 @@ import java.util.Set;
 public interface EntryRepository extends PagingAndSortingRepository<Entry, Long> {
 
     @Override
-    @PostFilter("filterObject.user.login == principal.username")
+    @PostFilter("filterObject.user.username == principal.username")
     Iterable<Entry> findAll(Sort sort);
 
     @Override
-    @Query("select o from Entry o where o.user.login = ?#{principal.username}")
+    @Query("select o from Entry o where o.user.username = ?#{principal.username}")
     Page<Entry> findAll(Pageable pageable);
 
     @Override
-    @Query("select o from Entry o where o.id = ?1 and o.user.login = ?#{principal.username}")
+    @Query("select o from Entry o where o.id = ?1 and o.user.username = ?#{principal.username}")
     Optional<Entry> findById(Long aLong);
 
-    @Query("select o from Entry o where o.project in (:projects) and o.user.login = ?#{principal.username}")
+    @Query("select o from Entry o where o.project in (:projects) and o.user.username = ?#{principal.username}")
     Page<Entry> findByProjectIn(Project[] projects, Pageable pageable);
 
     @Override
@@ -42,11 +42,11 @@ public interface EntryRepository extends PagingAndSortingRepository<Entry, Long>
     boolean existsById(Long aLong);
 
     @Override
-    @PostFilter("filterObject.user.login == principal.username")
+    @PostFilter("filterObject.user.username == principal.username")
     Iterable<Entry> findAll();
 
     @Override
-    @PostFilter("filterObject.user.login == principal.username")
+    @PostFilter("filterObject.user.username == principal.username")
     Iterable<Entry> findAllById(Iterable<Long> longs);
 
     @Override
@@ -54,11 +54,11 @@ public interface EntryRepository extends PagingAndSortingRepository<Entry, Long>
     long count();
 
     @Override
-    @PreAuthorize("@entryRepository.findById(#aLong)?.user.login == principal.username")
+    @PreAuthorize("@entryRepository.findById(#aLong)?.user.username == principal.username")
     void deleteById(@Param("aLong") Long aLong);
 
     @Override
-    @PreAuthorize("#entity.user.login == principal.username")
+    @PreAuthorize("#entity.user.username == principal.username")
     void delete(@Param("entity") Entry entity);
 
     @Override

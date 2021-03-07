@@ -18,15 +18,15 @@ import java.util.Optional;
 @PreAuthorize("isFullyAuthenticated()")
 public interface ProjectRepository extends PagingAndSortingRepository<Project, Long> {
     @Override
-    @PostFilter("filterObject.owner.login == principal.username")
+    @PostFilter("filterObject.owner.username == principal.username")
     Iterable<Project> findAll(Sort sort);
 
     @Override
-    @Query("select o from Project o where o.owner.login = ?#{principal.username}")
+    @Query("select o from Project o where o.owner.username = ?#{principal.username}")
     Page<Project> findAll(Pageable pageable);
 
     @Override
-    @Query("select o from Project o where o.id = ?1 and o.owner.login = ?#{principal.username}")
+    @Query("select o from Project o where o.id = ?1 and o.owner.username = ?#{principal.username}")
     Optional<Project> findById(Long aLong);
 
     @Override
@@ -34,11 +34,11 @@ public interface ProjectRepository extends PagingAndSortingRepository<Project, L
     boolean existsById(Long aLong);
 
     @Override
-    @PostFilter("filterObject.owner.login == principal.username")
+    @PostFilter("filterObject.owner.username == principal.username")
     Iterable<Project> findAll();
 
     @Override
-    @PostFilter("filterObject.owner.login == principal.username")
+    @PostFilter("filterObject.owner.username == principal.username")
     Iterable<Project> findAllById(Iterable<Long> longs);
 
     @Override
@@ -46,11 +46,11 @@ public interface ProjectRepository extends PagingAndSortingRepository<Project, L
     long count();
 
     @Override
-    @PreAuthorize("@projectRepository.findById(#aLong)?.owner.login == principal.username")
+    @PreAuthorize("@projectRepository.findById(#aLong)?.owner.username == principal.username")
     void deleteById(@Param("aLong") Long aLong);
 
     @Override
-    @PreAuthorize("#entity.owner.login == principal.username")
+    @PreAuthorize("#entity.owner.username == principal.username")
     void delete(@Param("entity") Project entity);
 
     @Override

@@ -32,7 +32,7 @@ public class SpringDataRestEventHandler {
     public void applyUserInformationUsingSecurityContext(final Entry entry) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByLogin(username);
+        User user = userRepository.findByUsername(username);
         entry.setUser(user);
     }
 
@@ -41,7 +41,7 @@ public class SpringDataRestEventHandler {
     public void applyUserInformationOnProject(final Project project) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByLogin(username);
+        User user = userRepository.findByUsername(username);
         project.setOwner(user);
     }
 

@@ -32,7 +32,7 @@ class Entry extends React.Component {
                 <div ref={this.entryRef}>
                     <div className='info'>
                         <div className='left-info'>
-                            <h2 className='username'>{this.props.entry.entity.user.login}</h2>
+                            <h2 className='username'>{this.props.entry.entity.user.username}</h2>
                         </div>
                         <div className='right-info'>
                             <h4 className='entry-project-name'>{this.props.entry.entity.project.name}</h4>

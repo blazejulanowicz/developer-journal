@@ -34,7 +34,7 @@ const Settings = () => {
                 placeholder: 'New username',
                 type: 'text'
             }],
-            onSubmit: (newUsername) => updateUserDetails({username: newUsername}),
+            onSubmit: (newUsername) => updateUserDetails({username: newUsername[0]}),
             isVisible: true
         };
 
@@ -45,10 +45,12 @@ const Settings = () => {
         let response = await client({
             method: 'PATCH',
             path: root,
+            headers: {
+                'Content-Type': 'application/json'
+            },
             entity: userDetails
         });
-        console.debug(response);
-        loadUserDetails().catch(error => console.log(error));
+        window.location.reload(false);
     }
 
     return (
