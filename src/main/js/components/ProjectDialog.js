@@ -22,7 +22,7 @@ function ProjectDialog({onCreate}) {
         <div className='new-project'>
             <a onClick={showDialog} className='button'>Add new project</a>
             <div ref={dialogRef} className='dialog-modal'>
-                <form id='new-project-form'>
+                <form id='modal-dialog-form'>
                     <h4>Add new project</h4>
                     <input placeholder="Project name" type="text" ref={nameRef}/>
                     <button className='button' onClick={handleSubmit}>Add project</button>
