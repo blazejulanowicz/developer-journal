@@ -85,6 +85,11 @@ const Settings = () => {
             }],
             onSubmit: (newGAT) => {
                 setDialogProps({...dialogProps, isVisible: false});
+                if(newGAT[0] === '') {
+                    updateUserDetails({githubAccessToken: null})
+                        .catch(error => console.error(error));
+                    return;
+                }
                 client({
                     method: 'GET',
                     path: 'https://api.github.com/user',
