@@ -4,6 +4,7 @@ const client = require('./client');
 const Settings = () => {
 
     const [userDetails, setUserDetails] = React.useState("");
+    const root = '/api/';
 
     React.useEffect(() => {
         loadUserDetails()
@@ -13,20 +14,20 @@ const Settings = () => {
     const loadUserDetails = async () => {
         let userDetails = await client({
             method: 'GET',
-            path: '/user/logDetails'
+            path: root + 'user'
         });
 
         setUserDetails(userDetails.entity);
     }
 
     return (
-            <div className='page-content content'>
+            <div className='page-content settings-content'>
                 <h1>Settings</h1>
-                <ul>
-                    <li>
-                        <h3>Username</h3>
-                        <span>{userDetails.username}</span>
-                        <span><a>Change username</a></span>
+                <ul className='settings-list'>
+                    <li className='settings-element'>
+                        <h3 className='setting-name'><strong>Username</strong></h3>
+                        <span className='setting-change'><a>Edit</a></span>
+                        <span className='setting-value'>{userDetails.username}</span>
                     </li>
                 </ul>
             </div>

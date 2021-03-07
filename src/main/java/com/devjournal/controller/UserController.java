@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserRepository repository;
@@ -24,7 +24,7 @@ public class UserController {
         this.repository = repository;
     }
 
-    @RequestMapping(value ="/logDetails", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public String getLoggedUserDetails(Principal principal) throws JsonProcessingException {
         User user = repository.findByLogin(principal.getName());

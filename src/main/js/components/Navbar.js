@@ -5,6 +5,7 @@ const client = require('../client');
 const Navbar = () => {
 
     const [userDetails, setUserDetails] = React.useState("");
+    const root = '/api/';
 
     React.useEffect(() => {
         loadUserDetails()
@@ -14,7 +15,7 @@ const Navbar = () => {
     const loadUserDetails = async () => {
         let userDetails = await client({
             method: 'GET',
-            path: '/user/logDetails'
+            path: root + 'user'
         });
 
         setUserDetails(userDetails.entity);

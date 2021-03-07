@@ -75,6 +75,11 @@ html {
     background-color: #131212;
     font-family: 'Rubik', sans-serif;
     color: whitesmoke;
+    min-height: 100%;
+}
+
+body {
+    height: 100%;
 }
 
 p {
@@ -375,6 +380,7 @@ p {
     z-index: 999;
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     background-color: rgba(40, 40, 40, 1);
     border-bottom: 1px solid rgba(76, 76, 76, 0.7);
@@ -409,4 +415,47 @@ p {
 
 .page-content {
     margin-top: $navbar-height;
+}
+
+.settings-content {
+    @extend .content;
+    margin-top: $navbar-height + 2rem;
+    align-items: flex-start;
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: rgba(48, 48, 48, 0.6);
+}
+
+.settings-list {
+    min-height: 600px;
+    width: 100%;
+    list-style-type: none;
+    text-decoration: none;
+    border-top: 1px solid rgba(76, 76, 76, 0.7);
+    border-bottom: 1px solid rgba(76, 76, 76, 0.7);
+    padding: 10px 0;
+    color: #bababa;
+}
+
+.settings-element {
+    display: block;
+    padding: 10px 5px;
+
+    .setting-name {
+        float: left;
+        color: white;
+        width: 200px;
+        margin: 0;
+    }
+
+    .setting-value {
+        display: block;
+        width: 600px;
+    }
+
+    .setting-change {
+        display: block;
+        float: right;
+        width: 200px;
+    }
 }
