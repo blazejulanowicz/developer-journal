@@ -18,4 +18,4 @@ module.exports = rest
                     .wrap(uriTemplateListInterceptor)
                     .wrap(uriTemplateInterceptor)
                     .wrap(errorCode)
-                    .wrap(defaultRequest, {headers: {'Accept' : 'application/hal+json'}});
+                    .wrap(defaultRequest, {headers: {'Accept' : 'application/hal+json, application/json'}});

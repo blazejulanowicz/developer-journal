@@ -6,6 +6,7 @@ const follow = require('./api/follow');
 const EntryDialog = require('./components/EntryDialog');
 const ProjectList = require('./components/ProjectList');
 const ProjectDialog = require('./components/ProjectDialog');
+const ModalDialog = require('./components/ModalDialog');
 
 const root = '/api/';
 
@@ -15,13 +16,31 @@ class App extends React.Component {
         super(props);
         this.state = {entries: [], pageSize: 2, links: [],
         projects: [], projPageSize: 6, projLinks: [],
-        activeProjects: [], userDetails: ""};
+        activeProjects: [], userDetails: "", modalDialog: {}};
+        this.state.modalDialog = {
+            dialogName: '',
+            inputOptions: [],
+            onSubmit: null,
+            isVisible: false
+        }
     }
 
     componentDidMount() {
-        this.state.userDetails = this.props.userDetails;
+        this.loadUserDetails().catch(error => console.log(error));
         this.loadProjects(this.state.projPageSize)
         .catch(error => console.log(error));
+    }
+
+    async loadUserDetails() {
+        let userDetails = await client({
+            method: 'GET',
+            path: root + 'user'
+        });
+
+        this.setState({
+            ...this.state,
+            userDetails: userDetails.entity
+        })
     }
 
     async loadProjects(projPageSize) {
@@ -148,6 +167,59 @@ class App extends React.Component {
         this.loadFromServer(this.state.pageSize).catch(error => console.error(error))
     }
 
+    async onIntegrationAdd(project) {
+
+        let response = await client({
+            method: 'GET',
+            path: 'https://api.github.com/user/repos',
+            headers: {
+                'Authorization': 'token ' + this.state.userDetails.githubAccessToken
+            }
+        });
+
+        this.setState({
+            ...this.state,
+            modalDialog: {
+                dialogName: 'Choose Github repository',
+                inputOptions: [
+                    {
+                        inputType: 'dropdown',
+                        options: response.entity.map(element => {
+                            return({
+                                key: element.url,
+                                value: element.full_name,
+                                text: element.full_name
+                            })
+                        })
+                    }
+                ],
+                onSubmit: (repoName) => {
+                    client({
+                        method: 'PUT',
+                        path: project.entity._links.self.href,
+                        entity: {
+                            ...project.entity,
+                            githubRepoName: repoName[0]
+                        },
+                        headers: {
+                            'Authorization': 'token ' + this.state.userDetails.githubAccessToken,
+                            'Content-Type': 'application/json'
+                        }
+                    }).catch(error => console.error(error));
+                    this.setState({
+                        ...this.state,
+                        modalDialog: {
+                            ...this.state.modalDialog,
+                            isVisible: false
+                        }
+                        }
+                    )
+                },
+                isVisible: true
+            }
+        })
+    }
+
     render() {
         return (
             <div className='page-content'>
@@ -156,9 +228,13 @@ class App extends React.Component {
                     <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)}/>
                 </div>
                 <div className='sidebar'>
-                    <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)}/>
+                    <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)} onIntegrationAdd={this.onIntegrationAdd.bind(this)}/>
                     <ProjectDialog onCreate={this.onProjectCreate.bind(this)}/>
                 </div>
+                <ModalDialog dialogName={this.state.modalDialog.dialogName}
+                             inputOptions={this.state.modalDialog.inputOptions}
+                             onSubmit={this.state.modalDialog.onSubmit}
+                             isVisible={this.state.modalDialog.isVisible}/>
             </div>
         )
     }

@@ -18,6 +18,9 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private Set<Entry> entries;
 
+    @Column(name = "github_repo_name")
+    private String githubRepoName;
+
     public Project() {
     }
 
@@ -51,5 +54,13 @@ public class Project {
 
     public void setEntries(Set<Entry> entries) {
         this.entries = entries;
+    }
+
+    public String getGithubRepoName() {
+        return githubRepoName;
+    }
+
+    public void setGithubRepoName(String githubRepoName) {
+        this.githubRepoName = githubRepoName;
     }
 }

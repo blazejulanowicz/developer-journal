@@ -3,7 +3,7 @@ const client = require('../client');
 const {FontAwesomeIcon} = require('@fortawesome/react-fontawesome')
 const {faAngleDown, faAngleUp} = require('@fortawesome/free-solid-svg-icons');
 
-function Project({ isActive, project, onDelete, onFilterChange }) {
+function Project({ isActive, project, onDelete, onFilterChange, onIntegrationAdd }) {
 
     const detailsRef = React.createRef();
     const nameRef = React.createRef();
@@ -47,7 +47,8 @@ function Project({ isActive, project, onDelete, onFilterChange }) {
             </div>
             <div ref={detailsRef} className='detail-view hidden'>
                 <p>Entries: {entryCount}</p>
-                <a onClick={handleDeleteButton} className='button'>DELETE PROJECT</a>
+                <p>Github project: {project.entity.githubRepoName != null ? project.entity.githubRepoName : <a onClick={() => onIntegrationAdd(project)}>Connect project</a>}</p>
+                    <a onClick={handleDeleteButton} className='button'>DELETE PROJECT</a>
             </div>
         </div>
     );

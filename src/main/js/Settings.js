@@ -80,6 +80,7 @@ const Settings = () => {
         let dialogInfo = {
             dialogName: 'Edit Github Access Token',
             inputOptions: [{
+                inputType: 'manual',
                 placeholder: 'New Github Access Token',
                 type: 'text'
             }],
@@ -94,8 +95,7 @@ const Settings = () => {
                     method: 'GET',
                     path: 'https://api.github.com/user',
                     headers: {
-                        'Authorization': 'token ' + newGAT,
-                        'Accept': 'application/json'
+                        'Authorization': 'token ' + newGAT
                     }
                 }).then(response => {
                     updateUserDetails({githubAccessToken: newGAT[0]})
