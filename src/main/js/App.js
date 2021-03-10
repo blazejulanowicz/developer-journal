@@ -220,11 +220,21 @@ class App extends React.Component {
         })
     }
 
+    handleCommitCheck(commitHash, project) {
+        return client({
+            method: 'GET',
+            path: 'https://api.github.com/repos/' + project.entity.githubRepoName + '/git/commits/' + commitHash,
+            headers: {
+                'Authorization': 'token ' + this.state.userDetails.githubAccessToken,
+            }
+        });
+    }
+
     render() {
         return (
             <div className='page-content'>
                 <div className='content'>
-                    <EntryDialog onCreate={this.onCreate.bind(this)}  projects={this.state.projects}/>
+                    <EntryDialog onCreate={this.onCreate.bind(this)}  projects={this.state.projects} handleCommitCheck={this.handleCommitCheck.bind(this)}/>
                     <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)}/>
                 </div>
                 <div className='sidebar'>

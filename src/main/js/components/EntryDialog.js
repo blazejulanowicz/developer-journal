@@ -1,4 +1,5 @@
 const React = require('react');
+const client = require('../client');
 const {FontAwesomeIcon} = require('@fortawesome/react-fontawesome');
 const {faPlus} = require('@fortawesome/free-solid-svg-icons');
 
@@ -8,9 +9,17 @@ class EntryDialog extends React.Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleExpand = this.handleExpand.bind(this);
+        this.onCommitInput = this.onCommitInput.bind(this);
+        this.handleProjectChange = this.handleProjectChange.bind(this);
         this.projectRef = React.createRef();
         this.contentRef = React.createRef();
         this.iconRef = React.createRef();
+        this.commitRef = React.createRef();
+
+        this.state = {
+            commitSHAInput: false,
+            selectedProject: {}
+        }
     }
 
     getCurrentDate() {
@@ -46,6 +55,28 @@ class EntryDialog extends React.Component {
         mainDiv.classList.toggle('new-entry-nexpanded');
     }
 
+    handleProjectChange(event) {
+        let selectedProject = this.props.projects.find(project => project.entity._links.self.href === event.currentTarget.value);
+
+        if(selectedProject.githubRepoName !== null)
+            this.setState({commitSHAInput: true, selectedProject: selectedProject});
+        else
+            this.setState({commitSHAInput: false});
+    }
+
+    onCommitInput(event) {
+        let inputField = event.currentTarget;
+        let project = this.state.selectedProject;
+        this.props.handleCommitCheck(inputField.value, project).then(response => {
+            console.debug(response);
+            inputField.style.backgroundColor = 'green';
+        })
+            .catch(error => {
+                console.error(error);
+                inputField.style.backgroundColor = 'red';
+            });
+    }
+
     render() {
         return (
             <div id="createEntry" className="entry new-entry-nexpanded">
@@ -53,12 +84,13 @@ class EntryDialog extends React.Component {
                     <div className='animated'>
                         <h1>Create new entry</h1>
                         <form id='new-entry-form'>
-                            <textarea type="text" placeholder='Enter content...' ref={this.contentRef} className="input-field"/>
+                            <textarea placeholder='Enter content...' ref={this.contentRef} className="input-field"/>
                             <div className="additional-options">
-                                <select id='project-dropdown' className='dropdown' ref={this.projectRef}>
+                                <select onChange={this.handleProjectChange} id='project-dropdown' className='dropdown' ref={this.projectRef}>
                                     <option selected disabled>Choose project...</option>
                                     {this.props.projects.map(project => <option key={project.entity._links.self.href} value={project.entity._links.self.href}>{project.entity.name}</option>)}
                                 </select>
+                                <input onChange={this.onCommitInput} ref={this.commitRef} className='input-field' placeholder={'Enter commit hash...'} style={{display: this.state.commitSHAInput ? 'block' : 'none'}}/>
                                 <button className='button submit-button' onClick={this.handleSubmit}>ADD</button>
                             </div>
                         </form>
