@@ -14,7 +14,7 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {entries: [], pageSize: 2, links: [],
+        this.state = {entries: [], pageSize: 2, links: [], isMoreEntries: false,
         projects: [], projPageSize: 6, projLinks: [],
         activeProjects: [], userDetails: "", modalDialog: {}};
         this.state.modalDialog = {
@@ -80,8 +80,8 @@ class App extends React.Component {
                         projects: this.state.activeProjects.map(project => project.entity._links.self.href)}}]);
 
         this.links = entryCollection.entity._links;
-
-
+        console.log(entryCollection)
+        let totalElements = entryCollection.entity.page.totalElements;
 
         entryCollection = await Promise.all(entryCollection.entity._embedded.entries
             .map(entry =>
@@ -96,7 +96,8 @@ class App extends React.Component {
             ...this.state,
             entries: entryCollection,
             pageSize: pageSize,
-            links: this.links
+            links: this.links,
+            isMoreEntries: entryCollection.length !== totalElements
         });
     }
 
@@ -235,7 +236,7 @@ class App extends React.Component {
             <div className='page-content'>
                 <div className='content'>
                     <EntryDialog onCreate={this.onCreate.bind(this)}  projects={this.state.projects} handleCommitCheck={this.handleCommitCheck.bind(this)}/>
-                    <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)}/>
+                    <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)} isMoreEntries={this.state.isMoreEntries}/>
                 </div>
                 <div className='sidebar'>
                     <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)} onIntegrationAdd={this.onIntegrationAdd.bind(this)}/>
