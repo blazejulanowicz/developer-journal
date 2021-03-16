@@ -406,8 +406,8 @@ p {
 }
 
 .user-panel-username {
-    border-left: 2px solid #2b2b49;
-    padding-left: 10px;
+    border-right: 2px solid whitesmoke;
+    padding-right: 10px;
     font-weight: bolder;
 }
 
@@ -446,11 +446,16 @@ p {
     display: block;
     padding: 10px 5px;
 
+    * {
+        line-height: 25px;
+    }
+
     .setting-name {
         float: left;
         color: white;
         width: 200px;
         margin: 0;
+        padding-right: 30px;
     }
 
     .setting-value {
