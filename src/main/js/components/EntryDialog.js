@@ -9,16 +9,14 @@ class EntryDialog extends React.Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleExpand = this.handleExpand.bind(this);
-        this.onCommitInput = this.onCommitInput.bind(this);
         this.handleProjectChange = this.handleProjectChange.bind(this);
         this.projectRef = React.createRef();
         this.contentRef = React.createRef();
         this.iconRef = React.createRef();
-        this.commitRef = React.createRef();
 
         this.state = {
             commitSHAInput: false,
-            selectedProject: {}
+            selectedProject: {},
         }
     }
 
@@ -64,19 +62,6 @@ class EntryDialog extends React.Component {
             this.setState({commitSHAInput: false});
     }
 
-    onCommitInput(event) {
-        let inputField = event.currentTarget;
-        let project = this.state.selectedProject;
-        this.props.handleCommitCheck(inputField.value, project).then(response => {
-            console.debug(response);
-            inputField.style.backgroundColor = 'green';
-        })
-            .catch(error => {
-                console.error(error);
-                inputField.style.backgroundColor = 'red';
-            });
-    }
-
     render() {
         return (
             <div id="createEntry" className="entry new-entry-nexpanded">
@@ -90,9 +75,8 @@ class EntryDialog extends React.Component {
                                     <option selected disabled>Choose project...</option>
                                     {this.props.projects.map(project => <option key={project.entity._links.self.href} value={project.entity._links.self.href}>{project.entity.name}</option>)}
                                 </select>
-                                <input onChange={this.onCommitInput} ref={this.commitRef} className='input-field' placeholder={'Enter commit hash...'} style={{display: this.state.commitSHAInput ? 'block' : 'none'}}/>
-                                <button className='button submit-button' onClick={this.handleSubmit}>ADD</button>
                             </div>
+                            <button className='button submit-button' onClick={this.handleSubmit}>SUBMIT</button>
                         </form>
                     </div>
             </div>
