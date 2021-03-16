@@ -1,4 +1,3 @@
-DROP DATABASE dev_journals;
 CREATE DATABASE dev_journals;
 USE dev_journals;
 
@@ -12,7 +11,7 @@ create table user
 (
     id        int          not null auto_increment
         primary key,
-    login     varchar(30)  not null,
+    username     varchar(30)  not null,
     pass_hash varchar(255) null
 );
 
@@ -58,4 +57,4 @@ create index fkIdx_34
     on committoentry (entryID);
 
 
-
+insert into user(username, pass_hash) VALUES('login', '$2a$10$9Sxsk5XHM/seKMhybQSS1OHZB822r/d9sIn7RdaHgSZ4Wjs4L6sNe');
