@@ -1,6 +1,6 @@
 const React = require('react');
 
-const ModalDialog = ({dialogName, inputOptions, onSubmit, isVisible}) => {
+const ModalDialog = ({dialogName, inputOptions, onSubmit, onCancel, isVisible}) => {
 
     const [formInputs, setFormInputs] = React.useState([]);
     const dialogRef = React.createRef();
@@ -36,12 +36,20 @@ const ModalDialog = ({dialogName, inputOptions, onSubmit, isVisible}) => {
         onSubmit(returnValues);
     };
 
+    const handleCancel = (event) => {
+        event.preventDefault();
+        onCancel();
+    }
+
     return(
       <div className='dialog-modal' ref={dialogRef}>
           <form id='modal-dialog-form'>
               <h4>{dialogName}</h4>
               {formInputs.map(input => input.htmlTag)}
-              <button className='button' onClick={handleSubmit}>Submit</button>
+              <div className='buttons'>
+                  <button className='button' onClick={handleSubmit}>Submit</button>
+                  <button className='button' onClick={handleCancel}>Cancel</button>
+              </div>
           </form>
       </div>
     );

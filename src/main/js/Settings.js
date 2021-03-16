@@ -145,7 +145,7 @@ const Settings = () => {
                         <span className='setting-value'>{userDetails.githubAccessToken ? githubUsername : <i>Github account not connected</i>}</span>
                     </li>
                 </ul>
-                <ModalDialog dialogName={dialogProps.dialogName} inputOptions={dialogProps.inputOptions} onSubmit={dialogProps.onSubmit} isVisible={dialogProps.isVisible}/>
+                <ModalDialog dialogName={dialogProps.dialogName} inputOptions={dialogProps.inputOptions} onSubmit={dialogProps.onSubmit} onCancel={() => setDialogProps({...dialogProps, isVisible: false})} isVisible={dialogProps.isVisible}/>
             </div>
     );
 }

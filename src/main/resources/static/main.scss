@@ -317,6 +317,17 @@ p {
     position: absolute;
     top: 20%;
     left: 20%;
+
+    > * {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
 }
 
 .project-info {
