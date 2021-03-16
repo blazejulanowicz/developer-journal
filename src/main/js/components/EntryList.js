@@ -34,8 +34,8 @@ class EntryList extends React.Component {
                 <TransitionGroup className='entry-list'>
                     {entries}
                 </TransitionGroup>
-                {this.props.isMoreEntries ? <button key='last' onClick={this.handleLoadMore}>LOAD MORE</button>
-                    : <span>No more entries to load :(</span> }
+                {this.props.isMoreEntries ? <button className='button' key='last' onClick={this.handleLoadMore}>LOAD MORE</button>
+                    : <h2 className='grayer-text'>No more entries to load :(</h2> }
             </div>
         )
     };

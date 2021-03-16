@@ -39,7 +39,7 @@ class Entry extends React.Component {
                             <h4 className='timestamp'>{this.props.entry.entity.timestamp}</h4>
                         </div>
                     </div>
-                    <div className='contentbox'>
+                    <div className='text-content'>
                         <p>{this.props.entry.entity.content}</p>
                     </div>
                     <button className='button' onClick={this.handleDelete}>DELETE</button>

@@ -168,7 +168,7 @@ p {
 }
 
 .entry {
-    max-height: 20rem;
+    max-height: 30rem;
     margin: 15px 5px;
     background-color: rgba(57, 57, 57, 0.7);
     border-radius: 2px;
@@ -192,6 +192,12 @@ p {
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .text-content {
+        white-space: pre-wrap;
+        overflow-y: auto;
+        max-height: 15rem;
     }
 }
 
@@ -468,4 +474,8 @@ p {
         float: right;
         width: 200px;
     }
+}
+
+.grayer-text {
+    color: rgba(222,222,222,0.6);
 }
