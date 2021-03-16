@@ -1,3 +1,4 @@
+const {Link} = require('react-router-dom');
 const React = require('react');
 const UserPanel = require('./UserPanel');
 const client = require('../client');
@@ -31,7 +32,7 @@ const Navbar = () => {
 
     return (
         <div className='nav'>
-            <h1 className="logo">Developer journal</h1>
+            <Link to='/'><h1 className="logo">Developer journal</h1></Link>
             <UserPanel loggedUser={userDetails} onLogout={onLogout}/>
         </div>
     )
