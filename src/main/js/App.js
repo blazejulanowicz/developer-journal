@@ -5,7 +5,6 @@ const EntryList = require('./components/EntryList');
 const follow = require('./api/follow');
 const EntryDialog = require('./components/EntryDialog');
 const ProjectList = require('./components/ProjectList');
-const ProjectDialog = require('./components/ProjectDialog');
 const ModalDialog = require('./components/ModalDialog');
 
 const root = '/api/';
@@ -26,9 +25,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.loadUserDetails().catch(error => console.log(error));
+        this.loadUserDetails().catch(error => console.error(error));
         this.loadProjects(this.state.projPageSize)
-        .catch(error => console.log(error));
+        .catch(error => console.error(error));
     }
 
     async loadUserDetails() {
@@ -80,7 +79,6 @@ class App extends React.Component {
                         projects: this.state.activeProjects.map(project => project.entity._links.self.href)}}]);
 
         this.links = entryCollection.entity._links;
-        console.log(entryCollection)
         let totalElements = entryCollection.entity.page.totalElements;
 
         entryCollection = await Promise.all(entryCollection.entity._embedded.entries

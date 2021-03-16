@@ -30,9 +30,8 @@ function Project({ isActive, project, onDelete, onFilterChange, onIntegrationAdd
             method: 'GET',
             path: project.entity._links.entries.href.split('{')[0]
         }).then(response => {
-            console.log(response)
             setEntryCount(response.entity._embedded.entries.length)
-        }).catch(error => console.log(error))
+        }).catch(error => console.error(error))
     }
 
     const handleDeleteButton = () => {

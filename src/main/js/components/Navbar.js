@@ -10,7 +10,7 @@ const Navbar = () => {
 
     React.useEffect(() => {
         loadUserDetails()
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
     },[])
 
     const loadUserDetails = async () => {
