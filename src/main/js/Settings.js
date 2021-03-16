@@ -44,6 +44,7 @@ const Settings = () => {
         let dialogInfo = {
             dialogName: 'Change username',
             inputOptions: [{
+                inputType: 'manual',
                 placeholder: 'New username',
                 type: 'text'
             }],
@@ -62,6 +63,7 @@ const Settings = () => {
         let dialogInfo = {
             dialogName: 'Change password',
             inputOptions: [{
+                inputType: 'manual',
                 placeholder: 'New password',
                 type: 'password'
             }],

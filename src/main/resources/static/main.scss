@@ -121,6 +121,12 @@ p {
     overflow: auto;
     padding: 10px 0;
     margin-top: $navbar-height;
+
+    > .button {
+        margin-top: 10px !important;
+        width: 40% !important;
+        align-self:center !important;
+    }
 }
 
 .content {

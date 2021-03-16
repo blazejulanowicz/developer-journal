@@ -135,15 +135,7 @@ class App extends React.Component {
     }
 
     async onProjectCreate(newProject) {
-        const projectCollection = await follow(client, root, ['projects']);
-        await client({
-            method: 'POST',
-            path: projectCollection.entity._links.self.href,
-            entity: newProject,
-            headers: {'Content-Type': 'application/json'}
-        });
 
-        this.loadProjects(this.state.projPageSize).catch(error => console.error(error));
     }
 
     onProjectDelete(project) {
@@ -151,7 +143,7 @@ class App extends React.Component {
             method: 'DELETE',
             path: project.entity._links.self.href
         })
-            .done(response => this.loadProjects(this.state.projPageSize))
+            .then(response => this.loadProjects(this.state.projPageSize))
             .catch(error => console.error(error));
     }
 
@@ -215,6 +207,41 @@ class App extends React.Component {
                         }
                         }
                     )
+                    this.loadProjects(this.state.projPageSize).catch(error => console.error(error));
+                },
+                isVisible: true
+            }
+        })
+    }
+
+    onProjectAdd() {
+        this.setState({
+            ...this.state,
+            modalDialog: {
+                dialogName: 'Add new project',
+                inputOptions: [{
+                    inputType: 'manual',
+                    placeholder: 'New project name',
+                    type: 'text'
+                }],
+                onSubmit: async (inputArray) => {
+                    const projectCollection = await follow(client, root, ['projects']);
+                    await client({
+                        method: 'POST',
+                        path: projectCollection.entity._links.self.href,
+                        entity: {name: inputArray[0]},
+                        headers: {'Content-Type': 'application/json'}
+                    });
+                    this.loadProjects(this.state.projPageSize).catch(error => console.error(error));
+
+                    this.setState({
+                            ...this.state,
+                            modalDialog: {
+                                ...this.state.modalDialog,
+                                isVisible: false
+                            }
+                        }
+                    )
                 },
                 isVisible: true
             }
@@ -240,11 +267,12 @@ class App extends React.Component {
                 </div>
                 <div className='sidebar'>
                     <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)} onIntegrationAdd={this.onIntegrationAdd.bind(this)}/>
-                    <ProjectDialog onCreate={this.onProjectCreate.bind(this)}/>
+                    <a onClick={this.onProjectAdd.bind(this)} className='button'>Add new project</a>
                 </div>
                 <ModalDialog dialogName={this.state.modalDialog.dialogName}
                              inputOptions={this.state.modalDialog.inputOptions}
                              onSubmit={this.state.modalDialog.onSubmit}
+                             onCancel={() => this.state.modalDialog.isVisible = false}
                              isVisible={this.state.modalDialog.isVisible}/>
             </div>
         )
