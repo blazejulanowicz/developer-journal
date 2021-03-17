@@ -26,7 +26,7 @@ For now, I recommend using web app on desktop environment - mobile use is not cu
   * Connect developer-journal project to Github repository
 
 ### Planned functionalities
-  * Connect related repository commits with entry - you can see what actions are you describing in entry,
+  * Connect related repository commits with entry - you can see what actions you've described in entry,
   * WakaTime API integration - see overall time spent on project and on every entry-described activity,
   * Sign up form for new users,
   * Markdown support - style your entries,
@@ -68,7 +68,7 @@ In the case of web app update, just clone repository again and run:
 ```shell
 $ docker-compose up --build
 ```
-This will make sure your data is not lost, and you can use the new version of software.
+This will make sure your data is not lost, and you will be able to use newer version of web app.
 
 ## Technology stack
 
