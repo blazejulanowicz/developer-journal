@@ -73,8 +73,7 @@ This will make sure your data is not lost, and you will be able to use newer ver
 ## Technology stack
 
 #### Frontend: 
-  * React, React Router, React Transition Group, [Rest.js](https://github.com/cujojs/rest), [React FontAwesome]
-    (https://fontawesome.com/how-to-use/on-the-web/using-with/react)
+  * React, React Router, React Transition Group, [Rest.js](https://github.com/cujojs/rest), [React FontAwesome](https://fontawesome.com/how-to-use/on-the-web/using-with/react)
   * HTML5, SCSS
   * [Babel](https://github.com/babel/babel), [Webpack](https://github.com/webpack/webpack)
 
