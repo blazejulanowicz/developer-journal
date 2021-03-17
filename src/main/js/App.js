@@ -264,7 +264,7 @@ class App extends React.Component {
                     <EntryList entries={this.state.entries} onDelete={this.onDelete.bind(this)} loadMore={() => this.loadFromServer(this.state.pageSize + 2)} isMoreEntries={this.state.isMoreEntries}/>
                 </div>
                 <div className='sidebar'>
-                    <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)} onIntegrationAdd={this.onIntegrationAdd.bind(this)}/>
+                    <ProjectList projects={this.state.projects} activeFilter={this.state.activeProjects} onDelete={this.onProjectDelete.bind(this)} onFilterChange={this.onProjectFilterChange.bind(this)} onIntegrationAdd={this.state.userDetails.githubAccessToken ? this.onIntegrationAdd.bind(this) : null}/>
                     <a onClick={this.onProjectAdd.bind(this)} className='button'>Add new project</a>
                 </div>
                 <ModalDialog dialogName={this.state.modalDialog.dialogName}

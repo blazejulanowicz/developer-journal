@@ -11,6 +11,7 @@ function Project({ isActive, project, onDelete, onFilterChange, onIntegrationAdd
     const [detailsOn, setDetailsOn] = React.useState(false);
 
     React.useEffect(() => {
+        console.debug(project);
         isActive ? nameRef.current.classList.add('active') : nameRef.current.classList.remove('active');
         getEntriesCount();
     });
@@ -46,8 +47,8 @@ function Project({ isActive, project, onDelete, onFilterChange, onIntegrationAdd
             </div>
             <div ref={detailsRef} className='detail-view hidden'>
                 <p>Entries: {entryCount}</p>
-                <p>Github project: {project.entity.githubRepoName != null ? project.entity.githubRepoName : <a onClick={() => onIntegrationAdd(project)}>Connect project</a>}</p>
-                    <a onClick={handleDeleteButton} className='button'>DELETE PROJECT</a>
+                {onIntegrationAdd === null ? null : <p>Github project: {project.entity.githubRepoName != null ? project.entity.githubRepoName : <a onClick={() => onIntegrationAdd(project)}>Connect project</a>}</p>}
+                <a onClick={handleDeleteButton} className='button'>DELETE PROJECT</a>
             </div>
         </div>
     );
