@@ -1,0 +1,33 @@
+{
+  "name": "developer-journal",
+  "version": "1.0.0",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^5.2.0",
+    "react-transition-group": "^4.4.1",
+    "regenerator-runtime": "^0.13.7",
+    "rest": "^1.3.2"
+  },
+  "scripts": {
+    "watch": "webpack --watch -d --output ./target/classes/static/built/bundle.js",
+    "build": "sass ./src/main/resources/static:./src/main/resources/static/built && webpack --config webpack.config.js",
+    "check": "echo Checking frontend && npm run lint && npm run test",
+    "clean": "echo Cleaning frontend",
+    "lint": "echo Linting frontend",
+    "test": "echo Testing frontend",
+    "build-css": "sass ./src/main/resources/static:./src/main/resources/static/built"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "sass": "^1.32.7"
+  }
+}

@@ -1,0 +1,60 @@
+const React = require('react');
+
+const ModalDialog = ({dialogName, inputOptions, onSubmit, onCancel, isVisible}) => {
+
+    const [formInputs, setFormInputs] = React.useState([]);
+    const dialogRef = React.createRef();
+
+    React.useEffect(() => {
+
+        //TODO: Check if inputOptions >= 1
+
+        let inputs = inputOptions.map(element => {
+            let newInput = {};
+            newInput.ref = React.createRef();
+            if(element.inputType === 'dropdown') {
+                let options = element.options.map(option => <option key={option.key} value={option.value}>{option.text}</option>);
+                options.push(<option key={0} value={'DISABLED'} disabled>Choose option...</option>);
+                newInput.htmlTag = <select defaultValue={'DISABLED'} key={newInput.ref} ref={newInput.ref}>{options}</select>;
+            }
+            else if(element.inputType === 'manual') {
+                newInput.htmlTag = <input key={newInput.ref} placeholder={element.placeholder} type={element.type} ref={newInput.ref}/>;
+            }
+            return newInput;
+        });
+
+        setFormInputs(inputs);
+        dialogRef.current.style.display = isVisible ? 'block' : 'none';
+    }, [isVisible]);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        let returnValues =  formInputs.map(input => {
+           return input.ref.current.value;
+        });
+        onSubmit(returnValues);
+        setFormInputs([]);
+    };
+
+    const handleCancel = (event) => {
+        event.preventDefault();
+        setFormInputs([]);
+        onCancel();
+    }
+
+    return(
+      <div className='dialog-modal' ref={dialogRef}>
+          <form id='modal-dialog-form'>
+              <h4>{dialogName}</h4>
+              {formInputs.map(input => input.htmlTag)}
+              <div className='buttons'>
+                  <button className='button' onClick={handleSubmit}>Submit</button>
+                  <button className='button' onClick={handleCancel}>Cancel</button>
+              </div>
+          </form>
+      </div>
+    );
+
+}
+
+module.exports = ModalDialog;

@@ -1,55 +1,60 @@
-DROP DATABASE dev_journals;
 CREATE DATABASE dev_journals;
 USE dev_journals;
 
-CREATE TABLE `Author`
+create table commit
 (
-    `id`       int NOT NULL ,
-    `login`    varchar(30) NOT NULL ,
-    `passHash` varchar(50) NOT NULL ,
-
-    PRIMARY KEY (`id`)
+    id int not null
+        primary key
 );
 
-CREATE TABLE `Commit`
+create table user
 (
-    `id` int NOT NULL ,
-
-    PRIMARY KEY (`id`)
+    id        int          not null auto_increment
+        primary key,
+    username     varchar(30)  not null,
+    pass_hash varchar(255) null
 );
 
-CREATE TABLE `Project`
+create table project
 (
-    `id`   int NOT NULL ,
-    `name` text NOT NULL ,
-
-    PRIMARY KEY (`id`)
+    id       int  not null auto_increment
+        primary key,
+    name     text not null,
+    owner_id int  null,
+    constraint FK9ydhxbq67a3m0ek560r2fq38g
+        foreign key (owner_id) references user (id)
 );
 
-CREATE TABLE `Entries`
+create table entry
 (
-    `id`        int NOT NULL AUTO_INCREMENT ,
-    `content`   text NOT NULL ,
-    `timestamp` datetime NOT NULL ,
-    `authorID`  int NOT NULL ,
-    `projectID` int NULL ,
-
-    PRIMARY KEY (`id`),
-    KEY `fkIdx_25` (`authorID`),
-    CONSTRAINT `FK_24` FOREIGN KEY `fkIdx_25` (`authorID`) REFERENCES `Author` (`id`),
-    KEY `fkIdx_28` (`projectID`),
-    CONSTRAINT `FK_27` FOREIGN KEY `fkIdx_28` (`projectID`) REFERENCES `Project` (`id`)
+    id         int auto_increment
+        primary key,
+    content    text     not null,
+    timestamp  datetime not null,
+    project_id int      null,
+    user_id    int      null,
+    constraint FK5rw2f20dwlyun1yiurec07gnm
+        foreign key (project_id) references project (id),
+    constraint FKb8w0fw4ccf95p9ct3y2gn4nbq
+        foreign key (user_id) references user (id)
 );
 
-CREATE TABLE `CommitToEntry`
+create table committoentry
 (
-    `entryID`  int NOT NULL ,
-    `commitID` int NOT NULL ,
-
-    PRIMARY KEY (`entryID`, `commitID`),
-    KEY `fkIdx_31` (`commitID`),
-    CONSTRAINT `FK_30` FOREIGN KEY `fkIdx_31` (`commitID`) REFERENCES `Commit` (`id`),
-    KEY `fkIdx_34` (`entryID`),
-    CONSTRAINT `FK_33` FOREIGN KEY `fkIdx_34` (`entryID`) REFERENCES `Entries` (`id`)
+    entryID  int not null,
+    commitID int not null,
+    primary key (entryID, commitID),
+    constraint FK_30
+        foreign key (commitID) references commit (id),
+    constraint FK_33
+        foreign key (entryID) references entry (id)
 );
 
+create index fkIdx_31
+    on committoentry (commitID);
+
+create index fkIdx_34
+    on committoentry (entryID);
+
+
+insert into user(username, pass_hash) VALUES('login', '$2a$10$9Sxsk5XHM/seKMhybQSS1OHZB822r/d9sIn7RdaHgSZ4Wjs4L6sNe');

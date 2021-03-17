@@ -1,1 +1,10 @@
+pluginManagement {
+    plugins {
+        id 'org.siouan.frontend-jdk11' version '5.0.0'
+    }
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'app'
