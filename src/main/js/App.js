@@ -270,7 +270,7 @@ class App extends React.Component {
                 <ModalDialog dialogName={this.state.modalDialog.dialogName}
                              inputOptions={this.state.modalDialog.inputOptions}
                              onSubmit={this.state.modalDialog.onSubmit}
-                             onCancel={() => this.state.modalDialog.isVisible = false}
+                             onCancel={() => this.setState({...this.state, modalDialog: { ...this.state.modalDialog, isVisible: false}})}
                              isVisible={this.state.modalDialog.isVisible}/>
             </div>
         )

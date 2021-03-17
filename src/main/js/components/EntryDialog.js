@@ -84,8 +84,8 @@ class EntryDialog extends React.Component {
                         <form id='new-entry-form'>
                             <textarea placeholder='Enter content...' ref={this.contentRef} className="input-field"/>
                             <div className="additional-options">
-                                <select onChange={this.handleProjectChange} id='project-dropdown' className='dropdown' ref={this.projectRef}>
-                                    <option selected disabled>Choose project...</option>
+                                <select defaultValue={'DISABLED'} onChange={this.handleProjectChange} id='project-dropdown' className='dropdown' ref={this.projectRef}>
+                                    <option value={'DISABLED'} disabled>Choose project...</option>
                                     {this.props.projects.map(project => <option key={project.entity._links.self.href} value={project.entity._links.self.href}>{project.entity.name}</option>)}
                                 </select>
                             </div>
