@@ -14,8 +14,8 @@ const ModalDialog = ({dialogName, inputOptions, onSubmit, onCancel, isVisible}) 
             newInput.ref = React.createRef();
             if(element.inputType === 'dropdown') {
                 let options = element.options.map(option => <option key={option.key} value={option.value}>{option.text}</option>);
-                options.push(<option key={0} selected disabled>Choose project...</option>);
-                newInput.htmlTag = <select key={newInput.ref} ref={newInput.ref}>{options}</select>;
+                options.push(<option key={0} value={'DISABLED'} disabled>Choose option...</option>);
+                newInput.htmlTag = <select defaultValue={'DISABLED'} key={newInput.ref} ref={newInput.ref}>{options}</select>;
             }
             else if(element.inputType === 'manual') {
                 newInput.htmlTag = <input key={newInput.ref} placeholder={element.placeholder} type={element.type} ref={newInput.ref}/>;
